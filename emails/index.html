@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Template Gallery — word.tips Newsletter</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #F5F5F5;
+      color: #1A1A1A;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ---- Sidebar ---- */
+    .sidebar {
+      width: 260px;
+      background: #FFFFFF;
+      border-right: 1px solid #E0E0E0;
+      padding: 24px 16px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .sidebar__section { margin-bottom: 20px; }
+
+    .sidebar__section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #888888;
+      margin-bottom: 8px;
+    }
+
+    .sidebar__link {
+      display: block;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: #4A4A4A;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 150ms;
+    }
+
+    .sidebar__link:hover { background: #F5F5F5; }
+    .sidebar__link--active { background: #D4EDDA; color: #2D7A4F; font-weight: 600; }
+
+    .sidebar__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #4CAF82;
+      text-decoration: none;
+      margin-bottom: 16px;
+    }
+
+    .sidebar__back:hover { text-decoration: underline; }
+
+    /* ---- Main ---- */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 32px;
+    }
+
+    .topbar {
+      background: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar__title { font-size: 17px; font-weight: 700; }
+
+    .topbar__badge {
+      display: inline-block;
+      background: #D4EDDA;
+      color: #2D7A4F;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+
+    /* ---- Section Headers ---- */
+    .section-header {
+      margin: 32px 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #E0E0E0;
+    }
+
+    .section-header__title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1A1A1A;
+    }
+
+    .section-header__subtitle {
+      font-size: 13px;
+      color: #888888;
+      margin-top: 4px;
+    }
+
+    /* ---- Email Cards ---- */
+    .email-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .email-card {
+      background: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow 250ms;
+    }
+
+    .email-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+
+    .email-card__preview {
+      height: 280px;
+      overflow: hidden;
+      border-bottom: 1px solid #E0E0E0;
+      position: relative;
+    }
+
+    .email-card__preview iframe {
+      width: 600px;
+      height: 900px;
+      border: none;
+      transform: scale(0.55);
+      transform-origin: top left;
+      pointer-events: none;
+    }
+
+    .email-card__body { padding: 16px; }
+
+    .email-card__title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1A1A1A;
+      margin-bottom: 4px;
+    }
+
+    .email-card__meta {
+      font-size: 13px;
+      color: #888888;
+      margin-bottom: 12px;
+    }
+
+    .email-card__tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .tag--daily { background: #F9DF6D; color: #1A1A1A; }
+    .tag--welcome { background: #D4EDDA; color: #2D7A4F; }
+    .tag--post-solve { background: #B0C4EF; color: #1A1A1A; }
+    .tag--reengagement { background: #F5F0FF; color: #7B3FA0; }
+
+    .email-card__link {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4CAF82;
+      text-decoration: none;
+    }
+
+    .email-card__link:hover { text-decoration: underline; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .email-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== SIDEBAR ==================== -->
+<nav class="sidebar">
+  <a class="sidebar__back" href="../index.html">← Back to Home</a>
+  <div class="sidebar__title">Email Template Gallery</div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Daily Newsletter</div>
+    <a class="sidebar__link" href="#daily">Daily Hints</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Welcome Sequence</div>
+    <a class="sidebar__link" href="#welcome-01">01: Orientation</a>
+    <a class="sidebar__link" href="#welcome-02">02: Quick Win</a>
+    <a class="sidebar__link" href="#welcome-03">03: Engagement</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Engagement</div>
+    <a class="sidebar__link" href="#post-solve">Post-Solve Check</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Re-engagement</div>
+    <a class="sidebar__link" href="#reengagement-01">01: Value Recap</a>
+    <a class="sidebar__link" href="#reengagement-02">02: Puzzle Journey</a>
+    <a class="sidebar__link" href="#reengagement-03">03: Last Chance</a>
+  </div>
+</nav>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<main class="main">
+
+  <div class="topbar">
+    <div>
+      <span class="topbar__title">word.tips Newsletter — Email Templates</span>
+      <span class="topbar__badge">8 Templates</span>
+    </div>
+  </div>
+
+  <!-- ====== DAILY HINTS ====== -->
+  <div class="section-header" id="daily">
+    <h2 class="section-header__title">Daily Newsletter</h2>
+    <p class="section-header__subtitle">The core product — sent every morning at 6:30 AM</p>
+  </div>
+
+  <div class="email-grid">
+    <div class="email-card">
+      <div class="email-card__preview">
+        <iframe src="connections-daily-hints.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Connections Daily Hints</div>
+        <div class="email-card__meta">Template: connections_daily_hints_v1 · Sender: Hoot</div>
+        <div class="email-card__tags">
+          <span class="tag tag--daily">Daily</span>
+        </div>
+        <a class="email-card__link" href="connections-daily-hints.html">Open Full Preview →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== WELCOME SEQUENCE ====== -->
+  <div class="section-header" id="welcome-01">
+    <h2 class="section-header__title">Welcome Sequence</h2>
+    <p class="section-header__subtitle">3-email onboarding series — triggered by double opt-in confirmation</p>
+  </div>
+
+  <div class="email-grid">
+    <div class="email-card" id="welcome-01">
+      <div class="email-card__preview">
+        <iframe src="welcome-01-orientation.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Welcome 01: Orientation</div>
+        <div class="email-card__meta">Template: connections_welcome_01_v1 · Immediate</div>
+        <div class="email-card__tags">
+          <span class="tag tag--welcome">Welcome</span>
+        </div>
+        <a class="email-card__link" href="welcome-01-orientation.html">Open Full Preview →</a>
+      </div>
+    </div>
+
+    <div class="email-card" id="welcome-02">
+      <div class="email-card__preview">
+        <iframe src="welcome-02-quick-win.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Welcome 02: Quick Win</div>
+        <div class="email-card__meta">Template: connections_welcome_02_v1 · +24 hours</div>
+        <div class="email-card__tags">
+          <span class="tag tag--welcome">Welcome</span>
+        </div>
+        <a class="email-card__link" href="welcome-02-quick-win.html">Open Full Preview →</a>
+      </div>
+    </div>
+
+    <div class="email-card" id="welcome-03">
+      <div class="email-card__preview">
+        <iframe src="welcome-03-engagement.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Welcome 03: Engagement Hook</div>
+        <div class="email-card__meta">Template: connections_welcome_03_v1 · +48 hours</div>
+        <div class="email-card__tags">
+          <span class="tag tag--welcome">Welcome</span>
+        </div>
+        <a class="email-card__link" href="welcome-03-engagement.html">Open Full Preview →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== POST-SOLVE CHECK ====== -->
+  <div class="section-header" id="post-solve">
+    <h2 class="section-header__title">Engagement</h2>
+    <p class="section-header__subtitle">Afternoon check-in — sent ~8 hours after daily hints</p>
+  </div>
+
+  <div class="email-grid">
+    <div class="email-card">
+      <div class="email-card__preview">
+        <iframe src="post-solve-check.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Post-Solve Check</div>
+        <div class="email-card__meta">Template: connections_post_solve_v1 · ~2:30 PM</div>
+        <div class="email-card__tags">
+          <span class="tag tag--post-solve">Engagement</span>
+        </div>
+        <a class="email-card__link" href="post-solve-check.html">Open Full Preview →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== RE-ENGAGEMENT ====== -->
+  <div class="section-header" id="reengagement-01">
+    <h2 class="section-header__title">Re-engagement Sequence</h2>
+    <p class="section-header__subtitle">3-email win-back series — triggered at 31+ days inactive</p>
+  </div>
+
+  <div class="email-grid">
+    <div class="email-card">
+      <div class="email-card__preview">
+        <iframe src="reengagement-01-value-recap.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Re-engagement 01: Value Recap</div>
+        <div class="email-card__meta">Template: general_reengagement_01_v1 · Day 0</div>
+        <div class="email-card__tags">
+          <span class="tag tag--reengagement">Re-engagement</span>
+        </div>
+        <a class="email-card__link" href="reengagement-01-value-recap.html">Open Full Preview →</a>
+      </div>
+    </div>
+
+    <div class="email-card" id="reengagement-02">
+      <div class="email-card__preview">
+        <iframe src="reengagement-02-puzzle-journey.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Re-engagement 02: Puzzle Journey</div>
+        <div class="email-card__meta">Template: general_reengagement_02_v1 · +5 days</div>
+        <div class="email-card__tags">
+          <span class="tag tag--reengagement">Re-engagement</span>
+        </div>
+        <a class="email-card__link" href="reengagement-02-puzzle-journey.html">Open Full Preview →</a>
+      </div>
+    </div>
+
+    <div class="email-card" id="reengagement-03">
+      <div class="email-card__preview">
+        <iframe src="reengagement-03-last-chance.html" loading="lazy"></iframe>
+      </div>
+      <div class="email-card__body">
+        <div class="email-card__title">Re-engagement 03: Last Chance</div>
+        <div class="email-card__meta">Template: general_reengagement_03_v1 · +10 days</div>
+        <div class="email-card__tags">
+          <span class="tag tag--reengagement">Re-engagement</span>
+        </div>
+        <a class="email-card__link" href="reengagement-03-last-chance.html">Open Full Preview →</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- ==================== SCRIPT ==================== -->
+<script>
+(function() {
+  var links = document.querySelectorAll('.sidebar__link');
+  var sections = [];
+  links.forEach(function(link) {
+    var id = link.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      var target = document.getElementById(id.substring(1));
+      if (target) sections.push({ link: link, target: target });
+    }
+  });
+
+  window.addEventListener('scroll', function() {
+    var scrollPos = window.scrollY + 120;
+    var active = null;
+    sections.forEach(function(s) {
+      if (s.target.offsetTop <= scrollPos) active = s;
+    });
+    links.forEach(function(l) { l.classList.remove('sidebar__link--active'); });
+    if (active) active.link.classList.add('sidebar__link--active');
+  });
+})();
+</script>
+
+</body>
+</html>

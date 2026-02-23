@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CTA Component Gallery — word.tips Newsletter</title>
+  <link rel="stylesheet" href="shared.css" />
+  <link rel="stylesheet" href="preview.css" />
+</head>
+<body>
+
+<!-- ==================== SIDEBAR ==================== -->
+<nav class="sidebar">
+  <div class="sidebar__title">CTA Component Gallery</div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Shared Components</div>
+    <a class="sidebar__link" href="#shared-input">Input (4 states)</a>
+    <a class="sidebar__link" href="#shared-button">Button (4 states)</a>
+    <a class="sidebar__link" href="#shared-toggle">Toggle (2 states)</a>
+    <a class="sidebar__link" href="#shared-feedback">Error / Toast</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">ATF — Above The Fold</div>
+    <a class="sidebar__link" href="#atf-v1">v1 Speed (8 states)</a>
+    <a class="sidebar__link" href="#atf-v2">v2 Convenience (8 states)</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Mid — Mid-Content</div>
+    <a class="sidebar__link" href="#mid-v1">v1 Tomorrow (6 states)</a>
+    <a class="sidebar__link" href="#mid-v2">v2 Speed (6 states)</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">BTF — Below The Fold</div>
+    <a class="sidebar__link" href="#btf-v1">v1 Never Miss (6 states)</a>
+    <a class="sidebar__link" href="#btf-v2">v2 Social Proof (6 states)</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Future</div>
+    <a class="sidebar__link" href="#exit-intent">Exit-Intent (6 states)</a>
+    <a class="sidebar__link" href="#conditional">Conditional (8 states)</a>
+  </div>
+</nav>
+
+<!-- ==================== MAIN CONTENT ==================== -->
+<main class="main">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar__title">word.tips Newsletter — CTA Components</div>
+    <div class="topbar__controls">
+      <span class="topbar__viewport-label">Viewport:</span>
+      <button class="topbar__viewport-btn topbar__viewport-btn--active" data-viewport="desktop" onclick="setViewport('desktop')">Desktop (680px)</button>
+      <button class="topbar__viewport-btn" data-viewport="mobile" onclick="setViewport('mobile')">Mobile (375px)</button>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- SHARED COMPONENTS              -->
+  <!-- ============================== -->
+
+  <div class="section-header" id="shared-input">
+    <h2 class="section-header__title">Shared Components — Input</h2>
+    <p class="section-header__subtitle">Email input field — 4 states</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Input — Default</span>
+        <span class="card__id">state=default</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/input-default"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Input — Focus</span>
+        <span class="card__id">state=focus</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/input-focus"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Input — Error</span>
+        <span class="card__id">state=error</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/input-error"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Input — Disabled</span>
+        <span class="card__id">state=disabled</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/input-disabled"></div></div>
+    </div>
+  </div>
+
+  <div class="section-header" id="shared-button">
+    <h2 class="section-header__title">Shared Components — Button</h2>
+    <p class="section-header__subtitle">Submit button — 4 states</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Button — Default</span>
+        <span class="card__id">state=default</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/button-default"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Button — Hover</span>
+        <span class="card__id">state=hover</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/button-hover"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Button — Loading</span>
+        <span class="card__id">state=loading</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/button-loading"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Button — Disabled</span>
+        <span class="card__id">state=disabled</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/button-disabled"></div></div>
+    </div>
+  </div>
+
+  <div class="section-header" id="shared-toggle">
+    <h2 class="section-header__title">Shared Components — Toggle</h2>
+    <p class="section-header__subtitle">Toggle switch — 2 states</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Toggle — Off</span>
+        <span class="card__id">state=off</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/toggle-off"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Toggle — On</span>
+        <span class="card__id">state=on</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/toggle-on"></div></div>
+    </div>
+  </div>
+
+  <div class="section-header" id="shared-feedback">
+    <h2 class="section-header__title">Shared Components — Feedback</h2>
+    <p class="section-header__subtitle">Error message and toast notification</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Inline Error</span>
+        <span class="card__id">Shared/Error/Inline</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/error-inline"></div></div>
+    </div>
+    <div class="card">
+      <div class="card__header">
+        <span class="card__label">Toast — Success</span>
+        <span class="card__id">Shared/Toast/Success</span>
+      </div>
+      <div class="card__body"><div class="card__component" data-component="shared/toast-success"></div></div>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- ATF — ABOVE THE FOLD           -->
+  <!-- ============================== -->
+
+  <div class="section-header" id="atf-v1">
+    <h2 class="section-header__title">ATF — v1 Speed</h2>
+    <p class="section-header__subtitle">cta_atf_connections_v1 — "Follow Connections Newsletter" — 8 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Collapsed — Desktop</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v1-collapsed-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Collapsed — Mobile</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="atf/v1-collapsed-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Expanded (Guest) — Desktop</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v1-expanded-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Expanded (Guest) — Mobile</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="atf/v1-expanded-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Subscribed (Logged-in)</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v1-subscribed"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Loading</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v1-loading"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Error</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v1-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v1 — Success (Guest)</span>
+      <span class="card__id">cta_atf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v1-success"></div></div>
+  </div>
+
+  <!-- ATF v2 -->
+  <div class="section-header" id="atf-v2">
+    <h2 class="section-header__title">ATF — v2 Convenience</h2>
+    <p class="section-header__subtitle">cta_atf_connections_v2 — "Get Daily Hints" — 8 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Collapsed — Desktop</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v2-collapsed-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Collapsed — Mobile</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="atf/v2-collapsed-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Expanded (Guest) — Desktop</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v2-expanded-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Expanded (Guest) — Mobile</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="atf/v2-expanded-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Subscribed (Logged-in)</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v2-subscribed"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Loading</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v2-loading"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Error</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v2-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">ATF / v2 — Success (Guest)</span>
+      <span class="card__id">cta_atf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="atf/v2-success"></div></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- MID — MID-CONTENT              -->
+  <!-- ============================== -->
+
+  <div class="section-header" id="mid-v1">
+    <h2 class="section-header__title">Mid — v1 Tomorrow</h2>
+    <p class="section-header__subtitle">cta_mid_connections_v1 — "Tomorrow's Connections hints—delivered tonight" — 6 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v1 — Default (Guest) — Desktop</span>
+      <span class="card__id">cta_mid_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v1-default-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v1 — Default (Guest) — Mobile</span>
+      <span class="card__id">cta_mid_connections_v1</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="mid/v1-default-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v1 — Logged-in Toggle</span>
+      <span class="card__id">cta_mid_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v1-logged-in"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v1 — Loading</span>
+      <span class="card__id">cta_mid_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v1-loading"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v1 — Error</span>
+      <span class="card__id">cta_mid_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v1-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v1 — Success (Guest)</span>
+      <span class="card__id">cta_mid_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v1-success"></div></div>
+  </div>
+
+  <!-- Mid v2 -->
+  <div class="section-header" id="mid-v2">
+    <h2 class="section-header__title">Mid — v2 Speed</h2>
+    <p class="section-header__subtitle">cta_mid_connections_v2 — "Get hints faster than anywhere else" — 6 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v2 — Default (Guest) — Desktop</span>
+      <span class="card__id">cta_mid_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v2-default-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v2 — Default (Guest) — Mobile</span>
+      <span class="card__id">cta_mid_connections_v2</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="mid/v2-default-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v2 — Logged-in Toggle</span>
+      <span class="card__id">cta_mid_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v2-logged-in"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v2 — Loading</span>
+      <span class="card__id">cta_mid_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v2-loading"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v2 — Error</span>
+      <span class="card__id">cta_mid_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v2-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Mid / v2 — Success (Guest)</span>
+      <span class="card__id">cta_mid_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="mid/v2-success"></div></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- BTF — BELOW THE FOLD           -->
+  <!-- ============================== -->
+
+  <div class="section-header" id="btf-v1">
+    <h2 class="section-header__title">BTF — v1 Never Miss</h2>
+    <p class="section-header__subtitle">cta_btf_connections_v1 — "Never miss today's Connections hints" — 6 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v1 — Default (Guest) — Desktop</span>
+      <span class="card__id">cta_btf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v1-default-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v1 — Default (Guest) — Mobile</span>
+      <span class="card__id">cta_btf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="btf/v1-default-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v1 — Logged-in Toggle</span>
+      <span class="card__id">cta_btf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v1-logged-in"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v1 — Loading</span>
+      <span class="card__id">cta_btf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v1-loading"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v1 — Error</span>
+      <span class="card__id">cta_btf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v1-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v1 — Success (Guest)</span>
+      <span class="card__id">cta_btf_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v1-success"></div></div>
+  </div>
+
+  <!-- BTF v2 -->
+  <div class="section-header" id="btf-v2">
+    <h2 class="section-header__title">BTF — v2 Social Proof</h2>
+    <p class="section-header__subtitle">cta_btf_connections_v2 — "Join 10,000+ daily Connections solvers" — 6 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v2 — Default (Guest) — Desktop</span>
+      <span class="card__id">cta_btf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v2-default-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v2 — Default (Guest) — Mobile</span>
+      <span class="card__id">cta_btf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="btf/v2-default-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v2 — Logged-in Toggle</span>
+      <span class="card__id">cta_btf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v2-logged-in"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v2 — Loading</span>
+      <span class="card__id">cta_btf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v2-loading"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v2 — Error</span>
+      <span class="card__id">cta_btf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v2-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">BTF / v2 — Success (Guest)</span>
+      <span class="card__id">cta_btf_connections_v2</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="btf/v2-success"></div></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- FUTURE — EXIT-INTENT           -->
+  <!-- ============================== -->
+
+  <div class="section-header" id="exit-intent">
+    <h2 class="section-header__title">Future — Exit-Intent Modal <span class="badge badge--future">FUTURE</span></h2>
+    <p class="section-header__subtitle">cta_exit_connections_v1 — Modal triggered on page exit — 6 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Exit-Intent — Urgency — Desktop</span>
+      <span class="card__id">cta_exit_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/exit-urgency-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Exit-Intent — FOMO — Desktop</span>
+      <span class="card__id">cta_exit_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/exit-fomo-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Exit-Intent — Success</span>
+      <span class="card__id">cta_exit_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/exit-success"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Exit-Intent — Error</span>
+      <span class="card__id">cta_exit_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/exit-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Exit-Intent — Urgency — Mobile</span>
+      <span class="card__id">cta_exit_connections_v1</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="future/exit-urgency-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Exit-Intent — Loading</span>
+      <span class="card__id">cta_exit_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/exit-loading"></div></div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- FUTURE — CONDITIONAL           -->
+  <!-- ============================== -->
+
+  <div class="section-header" id="conditional">
+    <h2 class="section-header__title">Future — Conditional Popup <span class="badge badge--future">FUTURE</span></h2>
+    <p class="section-header__subtitle">cta_conditional_connections_v1 — Triggered by hint interactions — 8 states</p>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Achievement (Guest) — Desktop</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/conditional-achievement-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Tomorrow (Guest) — Desktop</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/conditional-tomorrow-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Social Proof (Guest) — Desktop</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/conditional-social-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Logged-in — Desktop</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/conditional-logged-in-desktop"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Success</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/conditional-success"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Error</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/conditional-error"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Achievement (Guest) — Mobile</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--mobile"><div class="card__component" data-component="future/conditional-achievement-mobile"></div></div>
+  </div>
+
+  <div class="card">
+    <div class="card__header">
+      <span class="card__label">Conditional — Loading</span>
+      <span class="card__id">cta_conditional_connections_v1</span>
+    </div>
+    <div class="card__body card__body--desktop"><div class="card__component" data-component="future/conditional-loading"></div></div>
+  </div>
+
+</main>
+
+<!-- ==================== SCRIPT ==================== -->
+<script>
+(function() {
+  // Load all component HTML snippets
+  const components = document.querySelectorAll('[data-component]');
+  const loaded = [];
+
+  components.forEach(function(el) {
+    const path = 'components/' + el.getAttribute('data-component') + '.html';
+    const p = fetch(path)
+      .then(function(r) {
+        if (!r.ok) throw new Error('Failed: ' + path);
+        return r.text();
+      })
+      .then(function(html) {
+        el.innerHTML = html;
+      })
+      .catch(function(err) {
+        el.innerHTML = '<div style="color:#DC3545;font-size:13px;padding:12px;">Failed to load: ' + path + '</div>';
+        console.warn(err);
+      });
+    loaded.push(p);
+  });
+
+  Promise.all(loaded).then(function() {
+    console.log('All ' + components.length + ' components loaded.');
+  });
+
+  // Viewport toggle
+  window.setViewport = function(mode) {
+    var btns = document.querySelectorAll('.topbar__viewport-btn');
+    btns.forEach(function(b) { b.classList.remove('topbar__viewport-btn--active'); });
+    document.querySelector('[data-viewport="' + mode + '"]').classList.add('topbar__viewport-btn--active');
+
+    var bodies = document.querySelectorAll('.card__body');
+    bodies.forEach(function(body) {
+      // Don't override cards in the grid (shared components)
+      if (body.closest('.card-grid')) return;
+
+      body.classList.remove('card__body--desktop', 'card__body--mobile');
+      body.classList.add('card__body--' + mode);
+    });
+  };
+
+  // Sidebar active state on scroll
+  var links = document.querySelectorAll('.sidebar__link');
+  var sections = [];
+  links.forEach(function(link) {
+    var id = link.getAttribute('href');
+    if (id && id.startsWith('#')) {
+      var target = document.getElementById(id.substring(1));
+      if (target) sections.push({ link: link, target: target });
+    }
+  });
+
+  window.addEventListener('scroll', function() {
+    var scrollPos = window.scrollY + 120;
+    var active = null;
+    sections.forEach(function(s) {
+      if (s.target.offsetTop <= scrollPos) active = s;
+    });
+    links.forEach(function(l) { l.classList.remove('sidebar__link--active'); });
+    if (active) active.link.classList.add('sidebar__link--active');
+  });
+})();
+</script>
+
+</body>
+</html>
