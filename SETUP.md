@@ -16,7 +16,7 @@ git init
 git add -A
 git commit -m "Initial commit: CTA wireframes + email template previews"
 git branch -M main
-git remote add origin git@github.com:YOUR_ORG/newsletter-previews.git
+git remote add origin git@github.com:yebenesjose/newsletter-previews.git
 git push -u origin main
 ```
 
