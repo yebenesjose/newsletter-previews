@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sender Personas — word.tips Newsletter</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #F5F5F5;
+      color: #1A1A1A;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ---- Sidebar ---- */
+    .sidebar {
+      width: 260px;
+      background: #FFFFFF;
+      border-right: 1px solid #E0E0E0;
+      padding: 24px 16px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+    }
+
+    .sidebar__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1A1A1A;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .sidebar__section { margin-bottom: 20px; }
+
+    .sidebar__section-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #888888;
+      margin-bottom: 8px;
+    }
+
+    .sidebar__link {
+      display: block;
+      padding: 6px 12px;
+      font-size: 13px;
+      color: #4A4A4A;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 150ms;
+    }
+
+    .sidebar__link:hover { background: #F5F5F5; }
+    .sidebar__link--active { background: #D4EDDA; color: #2D7A4F; font-weight: 600; }
+
+    .sidebar__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #4CAF82;
+      text-decoration: none;
+      margin-bottom: 16px;
+    }
+
+    .sidebar__back:hover { text-decoration: underline; }
+
+    /* ---- Main ---- */
+    .main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 32px;
+    }
+
+    .topbar {
+      background: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      padding: 16px 24px;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar__title { font-size: 17px; font-weight: 700; }
+
+    .topbar__badge {
+      display: inline-block;
+      background: #D4EDDA;
+      color: #2D7A4F;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+    }
+
+    /* ---- Overview Table ---- */
+    .overview-table {
+      width: 100%;
+      background: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .overview-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .overview-table th {
+      background: #F9F9F9;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888888;
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #E0E0E0;
+    }
+
+    .overview-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #F0F0F0;
+      vertical-align: middle;
+    }
+
+    .overview-table tr:last-child td { border-bottom: none; }
+
+    .overview-table .persona-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    /* ---- Persona Card ---- */
+    .persona-card {
+      background: #FFFFFF;
+      border: 1px solid #E0E0E0;
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+    }
+
+    .persona-card__header {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #F0F0F0;
+    }
+
+    .persona-card__avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .persona-card__avatar svg {
+      width: 72px;
+      height: 72px;
+    }
+
+    .persona-card__meta { flex: 1; }
+
+    .persona-card__name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .persona-card__role {
+      font-size: 14px;
+      color: #4A4A4A;
+      margin-bottom: 8px;
+    }
+
+    .persona-card__email {
+      display: inline-block;
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: #F5F5F5;
+      padding: 3px 10px;
+      border-radius: 4px;
+      color: #4A4A4A;
+    }
+
+    .persona-card__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .persona-card__section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #888888;
+      margin-bottom: 8px;
+    }
+
+    .persona-card__tone {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4A4A4A;
+    }
+
+    .persona-card__samples {
+      list-style: none;
+      padding: 0;
+    }
+
+    .persona-card__samples li {
+      font-size: 14px;
+      color: #4A4A4A;
+      padding: 4px 0;
+      line-height: 1.5;
+    }
+
+    .persona-card__samples li::before {
+      content: "\201C";
+      color: #888888;
+      margin-right: 2px;
+    }
+
+    .persona-card__samples li::after {
+      content: "\201D";
+      color: #888888;
+      margin-left: 2px;
+    }
+
+    .persona-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .persona-card__tag {
+      display: inline-block;
+      font-size: 12px;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: #F0F0F0;
+      color: #4A4A4A;
+    }
+
+    .persona-card__signoff {
+      font-size: 14px;
+      color: #4A4A4A;
+      font-style: italic;
+    }
+
+    /* ---- Prompt Block ---- */
+    details {
+      margin-top: 24px;
+      border-top: 1px solid #F0F0F0;
+      padding-top: 16px;
+    }
+
+    details summary {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4CAF82;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    details summary:hover { text-decoration: underline; }
+
+    details .prompt-block {
+      margin-top: 12px;
+      background: #1A1A1A;
+      color: #E0E0E0;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      position: relative;
+    }
+
+    .prompt-label {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #888888;
+      margin-bottom: 8px;
+    }
+
+    .prompt-specs {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #888888;
+    }
+
+    .prompt-specs code {
+      background: #F5F5F5;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+    }
+
+    /* ---- Footer ---- */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      font-size: 13px;
+      color: #888888;
+    }
+
+    .footer a { color: #4CAF82; text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; }
+      .persona-card__header { flex-direction: column; text-align: center; }
+      .persona-card__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<nav class="sidebar">
+  <a class="sidebar__back" href="../index.html">&larr; All Previews</a>
+  <div class="sidebar__title">Sender Personas</div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Overview</div>
+    <a class="sidebar__link" href="#overview">Persona Table</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">The Owl Squad</div>
+    <a class="sidebar__link" href="#hoot">Hoot — Daily Hints</a>
+    <a class="sidebar__link" href="#otis">Otis — Games &amp; Tools</a>
+    <a class="sidebar__link" href="#ollie">Ollie — World Puzzles</a>
+    <a class="sidebar__link" href="#system">System — Word.tips</a>
+  </div>
+
+  <div class="sidebar__section">
+    <div class="sidebar__section-label">Resources</div>
+    <a class="sidebar__link" href="https://cliqpod.atlassian.net/browse/WDT-1155" target="_blank">Jira: WDT-1155</a>
+    <a class="sidebar__link" href="https://cliqpod.atlassian.net/wiki/spaces/Newsletter" target="_blank">Confluence Space</a>
+  </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar__title">The Owl Squad — Sender Personas</div>
+    <span class="topbar__badge">4 Personas</span>
+  </div>
+
+  <!-- Overview Table -->
+  <div id="overview" class="overview-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Persona</th>
+          <th>Email</th>
+          <th>Content</th>
+          <th>Tone</th>
+          <th>Avatar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="persona-dot" style="background:#F7B500"></span><strong>Hoot</strong></td>
+          <td><code>hoot@newsletter.word.tips</code></td>
+          <td>NYT Today Pages</td>
+          <td>Warm, encouraging</td>
+          <td>Prompt ready</td>
+        </tr>
+        <tr>
+          <td><span class="persona-dot" style="background:#4CAF82"></span><strong>Otis</strong></td>
+          <td><code>otis@newsletter.word.tips</code></td>
+          <td>Games &amp; Tools</td>
+          <td>Playful, energetic</td>
+          <td>Prompt ready</td>
+        </tr>
+        <tr>
+          <td><span class="persona-dot" style="background:#B0C4EF"></span><strong>Ollie</strong></td>
+          <td><code>ollie@newsletter.word.tips</code></td>
+          <td>Non-NYT Puzzles</td>
+          <td>Casual, worldly</td>
+          <td>Prompt ready</td>
+        </tr>
+        <tr>
+          <td><span class="persona-dot" style="background:#B1A995"></span><strong>System</strong></td>
+          <td><code>updates@newsletter.word.tips</code></td>
+          <td>Transactional</td>
+          <td>Professional</td>
+          <td>Existing logo</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ==================== HOOT ==================== -->
+  <div id="hoot" class="persona-card">
+    <div class="persona-card__header">
+      <div class="persona-card__avatar" style="background: #FFF8E1;">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <ellipse cx="50" cy="58" rx="28" ry="30" fill="#C9C3B6"/>
+          <!-- Belly -->
+          <ellipse cx="50" cy="64" rx="18" ry="20" fill="#DDD8CE"/>
+          <!-- Head -->
+          <circle cx="50" cy="32" r="22" fill="#B1A995"/>
+          <!-- Ear tufts -->
+          <path d="M32 18 L36 28 L28 26Z" fill="#695D5B"/>
+          <path d="M68 18 L64 28 L72 26Z" fill="#695D5B"/>
+          <!-- Eyes (white) -->
+          <circle cx="41" cy="32" r="8" fill="white"/>
+          <circle cx="59" cy="32" r="8" fill="white"/>
+          <!-- Pupils -->
+          <circle cx="43" cy="32" r="4" fill="#4B3C39"/>
+          <circle cx="61" cy="32" r="4" fill="#4B3C39"/>
+          <!-- Glasses -->
+          <circle cx="41" cy="32" r="10" stroke="#F7B500" stroke-width="1.5" fill="none"/>
+          <circle cx="59" cy="32" r="10" stroke="#F7B500" stroke-width="1.5" fill="none"/>
+          <line x1="51" y1="32" x2="49" y2="32" stroke="#F7B500" stroke-width="1.5"/>
+          <line x1="31" y1="30" x2="28" y2="28" stroke="#F7B500" stroke-width="1.5"/>
+          <line x1="69" y1="30" x2="72" y2="28" stroke="#F7B500" stroke-width="1.5"/>
+          <!-- Beak -->
+          <path d="M47 38 L50 43 L53 38Z" fill="#BE501C"/>
+          <!-- Coffee mug -->
+          <rect x="68" y="52" width="12" height="14" rx="2" fill="#F7B500"/>
+          <path d="M80 55 Q85 55 85 60 Q85 65 80 65" stroke="#F7B500" stroke-width="1.5" fill="none"/>
+          <!-- Steam -->
+          <path d="M72 48 Q74 44 72 40" stroke="#C9C3B6" stroke-width="1" fill="none" opacity="0.6"/>
+          <path d="M76 49 Q78 45 76 41" stroke="#C9C3B6" stroke-width="1" fill="none" opacity="0.4"/>
+          <!-- Feet -->
+          <path d="M40 86 L36 92 M40 86 L40 92 M40 86 L44 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+          <path d="M60 86 L56 92 M60 86 L60 92 M60 86 L64 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="persona-card__meta">
+        <div class="persona-card__name">Hoot</div>
+        <div class="persona-card__role">The Daily Hints Owl &mdash; MVP Persona</div>
+        <div class="persona-card__email">hoot@newsletter.word.tips</div>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Tone &amp; Voice</div>
+        <div class="persona-card__tone">Warm, encouraging, subtly playful. The friend who helps you start your day. Knowledgeable but not condescending. Celebrates user wins. Early-bird energy.</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Sample Lines</div>
+        <ul class="persona-card__samples">
+          <li>Good morning! Ready to tackle today's Connections?</li>
+          <li>Yesterday's purple category was a tricky one—you've got this today!</li>
+          <li>I've got just the hints you need, no spoilers included.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Sign-off Style</div>
+        <div class="persona-card__signoff">"Happy puzzling!" &mdash; Primary</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Content Types</div>
+        <div class="persona-card__tags">
+          <span class="persona-card__tag" style="background:#FFF8E1;color:#B8860B;">Connections</span>
+          <span class="persona-card__tag" style="background:#FFF8E1;color:#B8860B;">Wordle</span>
+          <span class="persona-card__tag" style="background:#FFF8E1;color:#B8860B;">Mini Crossword</span>
+          <span class="persona-card__tag" style="background:#FFF8E1;color:#B8860B;">Strands</span>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>View AI Avatar Prompt (Midjourney v6)</summary>
+      <div class="prompt-label">Full Prompt — Copy &amp; Paste</div>
+      <div class="prompt-block">Flat vector illustration of a cute cartoon owl character in the style of a modern app mascot. Warm taupe-brown body, dark brown wing and ear-tuft accents, orange-brown small beak and feet, large expressive white circular eyes with dark brown pupils. Rounded friendly proportions, oversized head relative to body. Clean outlines, minimal shading, pastel muted palette. White background. The owl wears small round reading glasses with thin gold frames and holds a steaming coffee mug in one wing. Warm, wise, approachable smile. Soft golden morning glow behind. A small puzzle piece floats nearby. Gold-yellow accent color on glasses and mug. --ar 1:1 --v 6 --style raw --s 200</div>
+      <div class="prompt-specs">
+        Accent: <code>#F7B500</code> &middot; Props: glasses, coffee mug, puzzle piece &middot; Output: 1:1 square, white bg, SVG-ready
+      </div>
+    </details>
+  </div>
+
+  <!-- ==================== OTIS ==================== -->
+  <div id="otis" class="persona-card">
+    <div class="persona-card__header">
+      <div class="persona-card__avatar" style="background: #E8F5E9;">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <ellipse cx="50" cy="58" rx="28" ry="30" fill="#C9C3B6"/>
+          <!-- Belly -->
+          <ellipse cx="50" cy="64" rx="18" ry="20" fill="#DDD8CE"/>
+          <!-- Head -->
+          <circle cx="50" cy="32" r="22" fill="#B1A995"/>
+          <!-- Ear tufts -->
+          <path d="M32 18 L36 28 L28 26Z" fill="#695D5B"/>
+          <path d="M68 18 L64 28 L72 26Z" fill="#695D5B"/>
+          <!-- Headband -->
+          <path d="M28 26 Q50 20 72 26" stroke="#4CAF82" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <!-- Eyes (white) -->
+          <circle cx="41" cy="32" r="8" fill="white"/>
+          <circle cx="59" cy="32" r="8" fill="white"/>
+          <!-- Pupils (excited look) -->
+          <circle cx="43" cy="31" r="4.5" fill="#4B3C39"/>
+          <circle cx="61" cy="31" r="4.5" fill="#4B3C39"/>
+          <!-- Eye shine -->
+          <circle cx="44.5" cy="29.5" r="1.5" fill="white"/>
+          <circle cx="62.5" cy="29.5" r="1.5" fill="white"/>
+          <!-- Beak (smiling) -->
+          <path d="M47 38 L50 42 L53 38" stroke="#BE501C" stroke-width="2" fill="#BE501C" stroke-linecap="round"/>
+          <!-- Wings (raised) -->
+          <path d="M22 50 Q18 42 24 38" stroke="#695D5B" stroke-width="2" fill="#B1A995"/>
+          <path d="M78 50 Q82 42 76 38" stroke="#695D5B" stroke-width="2" fill="#B1A995"/>
+          <!-- Game controller -->
+          <rect x="16" y="54" width="14" height="8" rx="3" fill="#4CAF82"/>
+          <circle cx="20" cy="58" r="1.5" fill="white"/>
+          <circle cx="27" cy="58" r="1.5" fill="white"/>
+          <rect x="22" y="56" width="2" height="4" rx="1" fill="#2D7A4F"/>
+          <!-- Pixel star -->
+          <path d="M78 40 L80 44 L84 44 L81 47 L82 51 L78 48 L74 51 L75 47 L72 44 L76 44Z" fill="#4CAF82" opacity="0.7"/>
+          <!-- Feet -->
+          <path d="M40 86 L36 92 M40 86 L40 92 M40 86 L44 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+          <path d="M60 86 L56 92 M60 86 L60 92 M60 86 L64 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="persona-card__meta">
+        <div class="persona-card__name">Otis</div>
+        <div class="persona-card__role">The Games &amp; Tools Owl</div>
+        <div class="persona-card__email">otis@newsletter.word.tips</div>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Tone &amp; Voice</div>
+        <div class="persona-card__tone">Playful, curious, enthusiastic. The friend who loves games. Energetic and fun. Competitive but friendly. Achievement-focused. Tech-savvy helper.</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Sample Lines</div>
+        <ul class="persona-card__samples">
+          <li>New mini crossword dropped! Can you beat your best time?</li>
+          <li>You're on a 5-day streak—keep it going!</li>
+          <li>Challenge accepted? Today's puzzle awaits.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Sign-off Style</div>
+        <div class="persona-card__signoff">"Game on!" &mdash; Primary</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Content Types</div>
+        <div class="persona-card__tags">
+          <span class="persona-card__tag" style="background:#E8F5E9;color:#2D7A4F;">Word Games</span>
+          <span class="persona-card__tag" style="background:#E8F5E9;color:#2D7A4F;">Word Counter</span>
+          <span class="persona-card__tag" style="background:#E8F5E9;color:#2D7A4F;">Tools</span>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>View AI Avatar Prompt (Midjourney v6)</summary>
+      <div class="prompt-label">Full Prompt — Copy &amp; Paste</div>
+      <div class="prompt-block">Flat vector illustration of a cute cartoon owl character in the style of a modern app mascot. Warm taupe-brown body, dark brown wing and ear-tuft accents, orange-brown small beak and feet, large expressive white circular eyes with dark brown pupils. Rounded friendly proportions, oversized head relative to body. Clean outlines, minimal shading, pastel muted palette. White background. The owl has an energetic excited expression with slightly raised wings. Holds a small retro game controller in one wing. Playful leaning-forward pose. A tiny pixel-art star floats nearby. Bright green accent color on the controller and a small green headband. --ar 1:1 --v 6 --style raw --s 200</div>
+      <div class="prompt-specs">
+        Accent: <code>#4CAF82</code> &middot; Props: game controller, headband, pixel star &middot; Output: 1:1 square, white bg, SVG-ready
+      </div>
+    </details>
+  </div>
+
+  <!-- ==================== OLLIE ==================== -->
+  <div id="ollie" class="persona-card">
+    <div class="persona-card__header">
+      <div class="persona-card__avatar" style="background: #E8EAF6;">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <ellipse cx="50" cy="58" rx="28" ry="30" fill="#C9C3B6"/>
+          <!-- Belly -->
+          <ellipse cx="50" cy="64" rx="18" ry="20" fill="#DDD8CE"/>
+          <!-- Head -->
+          <circle cx="50" cy="32" r="22" fill="#B1A995"/>
+          <!-- Ear tufts -->
+          <path d="M32 18 L36 28 L28 26Z" fill="#695D5B"/>
+          <path d="M68 18 L64 28 L72 26Z" fill="#695D5B"/>
+          <!-- Beret -->
+          <ellipse cx="46" cy="14" rx="16" ry="6" fill="#3F51B5"/>
+          <circle cx="46" cy="10" r="3" fill="#3F51B5"/>
+          <path d="M30 16 Q46 22 62 14" fill="#3F51B5"/>
+          <!-- Eyes (white) -->
+          <circle cx="41" cy="32" r="8" fill="white"/>
+          <circle cx="59" cy="32" r="8" fill="white"/>
+          <!-- Pupils (curious look) -->
+          <circle cx="44" cy="33" r="4" fill="#4B3C39"/>
+          <circle cx="62" cy="33" r="4" fill="#4B3C39"/>
+          <!-- Beak (half-smile) -->
+          <path d="M47 38 L50 42 L53 38Z" fill="#BE501C"/>
+          <path d="M48 43 Q50 45 53 43" stroke="#BE501C" stroke-width="1" fill="none"/>
+          <!-- Globe in wing -->
+          <circle cx="22" cy="56" r="9" fill="#B0C4EF"/>
+          <ellipse cx="22" cy="56" rx="9" ry="3.5" fill="none" stroke="#8FA4CF" stroke-width="0.8"/>
+          <line x1="22" y1="47" x2="22" y2="65" stroke="#8FA4CF" stroke-width="0.8"/>
+          <path d="M14 52 Q22 58 30 52" stroke="#8FA4CF" stroke-width="0.8" fill="none"/>
+          <!-- Compass motif -->
+          <circle cx="80" cy="44" r="6" fill="none" stroke="#B0C4EF" stroke-width="1.2" opacity="0.7"/>
+          <path d="M80 38 L80 40 M80 48 L80 50 M74 44 L76 44 M84 44 L86 44" stroke="#B0C4EF" stroke-width="1" opacity="0.7"/>
+          <path d="M80 42 L81 44 L80 46 L79 44Z" fill="#B0C4EF" opacity="0.7"/>
+          <!-- Feet -->
+          <path d="M40 86 L36 92 M40 86 L40 92 M40 86 L44 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+          <path d="M60 86 L56 92 M60 86 L60 92 M60 86 L64 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="persona-card__meta">
+        <div class="persona-card__name">Ollie</div>
+        <div class="persona-card__role">The World Puzzles Owl</div>
+        <div class="persona-card__email">ollie@newsletter.word.tips</div>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Tone &amp; Voice</div>
+        <div class="persona-card__tone">Cultured, adventurous, inclusive. The friend who travels the world. Laid-back and friendly. Less formal. Quick and helpful. Worldly vibe.</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Sample Lines</div>
+        <ul class="persona-card__samples">
+          <li>Hey! Today's puzzle is ready.</li>
+          <li>Quick hints incoming—let's crush it.</li>
+          <li>Conexo time! Here's what you need to know.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Sign-off Style</div>
+        <div class="persona-card__signoff">"Cheers!" &mdash; Primary</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Content Types</div>
+        <div class="persona-card__tags">
+          <span class="persona-card__tag" style="background:#E8EAF6;color:#3F51B5;">Conexo</span>
+          <span class="persona-card__tag" style="background:#E8EAF6;color:#3F51B5;">International Puzzles</span>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>View AI Avatar Prompt (Midjourney v6)</summary>
+      <div class="prompt-label">Full Prompt — Copy &amp; Paste</div>
+      <div class="prompt-block">Flat vector illustration of a cute cartoon owl character in the style of a modern app mascot. Warm taupe-brown body, dark brown wing and ear-tuft accents, orange-brown small beak and feet, large expressive white circular eyes with dark brown pupils. Rounded friendly proportions, oversized head relative to body. Clean outlines, minimal shading, pastel muted palette. White background. The owl wears a small navy beret tilted to one side. Holds a tiny globe in one wing. Relaxed confident pose with a curious half-smile. A small compass motif floats nearby. Soft blue accent color on the beret and globe highlights. --ar 1:1 --v 6 --style raw --s 200</div>
+      <div class="prompt-specs">
+        Accent: <code>#B0C4EF</code> &middot; Props: beret, globe, compass &middot; Output: 1:1 square, white bg, SVG-ready
+      </div>
+    </details>
+  </div>
+
+  <!-- ==================== SYSTEM ==================== -->
+  <div id="system" class="persona-card">
+    <div class="persona-card__header">
+      <div class="persona-card__avatar" style="background: #F5F0EB;">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <ellipse cx="50" cy="58" rx="28" ry="30" fill="#C9C3B6"/>
+          <!-- Belly -->
+          <ellipse cx="50" cy="64" rx="18" ry="20" fill="#DDD8CE"/>
+          <!-- Head -->
+          <circle cx="50" cy="32" r="22" fill="#B1A995"/>
+          <!-- Ear tufts -->
+          <path d="M32 18 L36 28 L28 26Z" fill="#695D5B"/>
+          <path d="M68 18 L64 28 L72 26Z" fill="#695D5B"/>
+          <!-- Eyes (white) -->
+          <circle cx="41" cy="32" r="8" fill="white"/>
+          <circle cx="59" cy="32" r="8" fill="white"/>
+          <!-- Pupils (neutral) -->
+          <circle cx="42" cy="32" r="4" fill="#4B3C39"/>
+          <circle cx="60" cy="32" r="4" fill="#4B3C39"/>
+          <!-- Beak -->
+          <path d="M47 38 L50 43 L53 38Z" fill="#BE501C"/>
+          <!-- Wing tips (sage green) -->
+          <path d="M22 48 Q18 55 22 62" fill="#DDE7DE"/>
+          <path d="M78 48 Q82 55 78 62" fill="#DDE7DE"/>
+          <!-- Feet -->
+          <path d="M40 86 L36 92 M40 86 L40 92 M40 86 L44 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+          <path d="M60 86 L56 92 M60 86 L60 92 M60 86 L64 92" stroke="#BE501C" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="persona-card__meta">
+        <div class="persona-card__name">System</div>
+        <div class="persona-card__role">Word.tips &mdash; Transactional Sender</div>
+        <div class="persona-card__email">updates@newsletter.word.tips</div>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Tone &amp; Voice</div>
+        <div class="persona-card__tone">Professional, clear, neutral. No character personality. Straightforward and trustworthy. Uses the existing Word.tips owl brand logo.</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Sample Lines</div>
+        <ul class="persona-card__samples">
+          <li>Your preferences have been updated.</li>
+          <li>You've been unsubscribed from Connections hints.</li>
+          <li>Please confirm your email address to complete your subscription.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="persona-card__grid">
+      <div>
+        <div class="persona-card__section-title">Sign-off Style</div>
+        <div class="persona-card__signoff">"Word.tips" &mdash; or no sign-off for transactional</div>
+      </div>
+      <div>
+        <div class="persona-card__section-title">Content Types</div>
+        <div class="persona-card__tags">
+          <span class="persona-card__tag">Unsubscribe Confirmations</span>
+          <span class="persona-card__tag">Preference Updates</span>
+          <span class="persona-card__tag">Account Notices</span>
+        </div>
+      </div>
+    </div>
+
+    <details>
+      <summary>Avatar Note</summary>
+      <div style="margin-top:12px; font-size:14px; color:#4A4A4A; line-height:1.6;">
+        <strong>No AI generation needed.</strong> Uses the existing Word.tips owl logo/SVG. Professional, neutral presentation of the current brand owl. The System persona represents the brand itself rather than a character.
+      </div>
+      <div class="prompt-specs">
+        Color: <code>#B1A995</code> (brand taupe) &middot; Source: existing Word.tips SVG
+      </div>
+    </details>
+  </div>
+
+  <div class="footer">
+    <p>Newsletter Channel Initiative &mdash; <a href="https://cliqpod.atlassian.net/wiki/spaces/Newsletter">Confluence</a> &middot; <a href="https://cliqpod.atlassian.net/browse/WDT-1077">Jira Epic</a></p>
+  </div>
+</div>
+
+</body>
+</html>

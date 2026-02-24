@@ -33,9 +33,9 @@ After a minute, your previews will be live at:
 
 | Preview | URL |
 |---------|-----|
-| Landing | `https://YOUR_ORG.github.io/newsletter-previews/` |
-| CTA Gallery | `https://YOUR_ORG.github.io/newsletter-previews/cta/` |
-| Email Gallery | `https://YOUR_ORG.github.io/newsletter-previews/emails/` |
+| Landing | `https://yebenesjose.github.io/newsletter-previews/` |
+| CTA Gallery | `https://yebenesjose.github.io/newsletter-previews/cta/` |
+| Email Gallery | `https://yebenesjose.github.io/newsletter-previews/emails/` |
 
 ## Directory Structure
 

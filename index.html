@@ -52,7 +52,7 @@
 
     .cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 24px;
     }
 
@@ -117,6 +117,10 @@
 
     .footer a:hover { text-decoration: underline; }
 
+    @media (max-width: 900px) {
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 600px) {
       .cards { grid-template-columns: 1fr; }
     }
@@ -145,6 +149,14 @@
       <div class="card__title">Email Templates</div>
       <div class="card__desc">All newsletter email templates with sample data filled in. Daily hints, welcome sequence, re-engagement.</div>
       <div class="card__stats">8 email templates &middot; HTML previews</div>
+      <div class="card__link">Open Gallery &rarr;</div>
+    </a>
+
+    <a class="card" href="personas/index.html">
+      <div class="card__emoji">🦉</div>
+      <div class="card__title">Sender Personas</div>
+      <div class="card__desc">The Owl Squad &mdash; 4 sender personas with voice guidelines, sample copy, and AI avatar prompts.</div>
+      <div class="card__stats">4 personas &middot; Avatar prompts included</div>
       <div class="card__link">Open Gallery &rarr;</div>
     </a>
   </div>
