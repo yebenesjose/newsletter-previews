@@ -52,7 +52,7 @@
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 24px;
     }
 
@@ -117,10 +117,6 @@
 
     .footer a:hover { text-decoration: underline; }
 
-    @media (max-width: 900px) {
-      .cards { grid-template-columns: 1fr 1fr; }
-    }
-
     @media (max-width: 600px) {
       .cards { grid-template-columns: 1fr; }
     }
@@ -136,6 +132,14 @@
   </div>
 
   <div class="cards">
+    <a class="card" href="presentation/index.html" style="border: 2px solid #4CAF82;">
+      <div class="card__emoji">&#128202;</div>
+      <div class="card__title">Scenario Deck</div>
+      <div class="card__desc">Interactive slide deck: 3 launch scenarios for Oriol &amp; Alex. 22 slides with architecture diagrams and decision framework.</div>
+      <div class="card__stats">22 slides &middot; 3 scenarios &middot; Interactive</div>
+      <div class="card__link">Open Presentation &rarr;</div>
+    </a>
+
     <a class="card" href="cta/index.html">
       <div class="card__emoji">🎯</div>
       <div class="card__title">CTA Components</div>

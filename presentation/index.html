@@ -1,0 +1,2069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newsletter Channel Initiative — word.tips</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg: #F5F5F5;
+  --bg-slide: #FFFFFF;
+  --text: #1A1A1A;
+  --text-secondary: #4A4A4A;
+  --text-muted: #888888;
+  --accent: #4CAF82;
+  --accent-light: #E8F5E9;
+  --border: #E0E0E0;
+  --radius: 12px;
+  --amber: #F59E0B;
+  --amber-light: #FEF3C7;
+  --amber-dark: #D97706;
+  --green: #4CAF82;
+  --green-light: #E8F5E9;
+  --green-dark: #2E7D55;
+  --purple: #6366F1;
+  --purple-light: #EEF2FF;
+  --purple-dark: #4F46E5;
+  --red: #EF4444;
+  --red-light: #FEE2E2;
+  --yellow: #FBBF24;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #111;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== SLIDE ENGINE ===== */
+.deck {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateX(40px);
+  background: var(--bg);
+  overflow-y: auto;
+}
+
+.slide.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+  z-index: 2;
+}
+
+.slide.exit-left {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+
+.slide-inner {
+  width: 100%;
+  max-width: 1100px;
+  padding: 48px 64px;
+  min-height: 0;
+}
+
+/* ===== TYPOGRAPHY ===== */
+.slide-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 8px;
+}
+
+.slide-label--amber { color: var(--amber-dark); }
+.slide-label--green { color: var(--green-dark); }
+.slide-label--purple { color: var(--purple-dark); }
+.slide-label--neutral { color: var(--text-muted); }
+
+h1 { font-size: 44px; font-weight: 800; line-height: 1.15; margin-bottom: 16px; color: var(--text); }
+h2 { font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 12px; color: var(--text); }
+h3 { font-size: 20px; font-weight: 700; line-height: 1.3; margin-bottom: 8px; color: var(--text); }
+h4 { font-size: 16px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; color: var(--text); }
+
+.subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 640px;
+}
+
+.small-text {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* ===== LAYOUT HELPERS ===== */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-8 { gap: 8px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.gap-24 { gap: 24px; }
+.gap-32 { gap: 32px; }
+.gap-48 { gap: 48px; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.justify-between { justify-content: space-between; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+.text-center { text-align: center; }
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-32 { margin-top: 32px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.flex-1 { flex: 1; }
+
+/* ===== CARDS ===== */
+.card {
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card--amber { border-left: 4px solid var(--amber); }
+.card--green { border-left: 4px solid var(--green); }
+.card--purple { border-left: 4px solid var(--purple); }
+.card--accent { border-left: 4px solid var(--accent); }
+
+.card--flat {
+  background: var(--bg);
+  border: none;
+  box-shadow: none;
+}
+
+/* ===== SCENARIO BADGES ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge--amber { background: var(--amber-light); color: var(--amber-dark); }
+.badge--green { background: var(--green-light); color: var(--green-dark); }
+.badge--purple { background: var(--purple-light); color: var(--purple-dark); }
+.badge--red { background: var(--red-light); color: var(--red); }
+.badge--neutral { background: #F0F0F0; color: var(--text-muted); }
+
+/* ===== TABLES ===== */
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  background: #FAFAFA;
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #F0F0F0;
+  vertical-align: top;
+}
+
+tr:last-child td { border-bottom: none; }
+
+tr.row--amber td:first-child { border-left: 3px solid var(--amber); }
+tr.row--green td:first-child { border-left: 3px solid var(--green); }
+tr.row--purple td:first-child { border-left: 3px solid var(--purple); }
+
+tr.row--dimmed { opacity: 0.45; }
+
+.jira-key {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ===== STAT BOXES ===== */
+.stat {
+  text-align: center;
+  padding: 20px;
+}
+
+.stat-value {
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-value--amber { color: var(--amber); }
+.stat-value--green { color: var(--green); }
+.stat-value--purple { color: var(--purple); }
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ===== RISK INDICATORS ===== */
+.risk {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.risk-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.risk-dot--high { background: var(--red); }
+.risk-dot--medium { background: var(--yellow); }
+.risk-dot--low { background: var(--green); }
+
+/* ===== FEATURE MATRIX ===== */
+.check { color: var(--green); font-weight: 700; }
+.cross { color: #CCC; }
+
+/* ===== BAR CHARTS ===== */
+.bar-chart { display: flex; flex-direction: column; gap: 16px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { width: 140px; font-size: 13px; font-weight: 600; text-align: right; flex-shrink: 0; }
+.bar-track { flex: 1; height: 32px; background: #F0F0F0; border-radius: 8px; overflow: hidden; position: relative; }
+.bar-fill { height: 100%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; font-size: 12px; font-weight: 700; color: white; transition: width 1s ease; }
+.bar-fill--amber { background: linear-gradient(135deg, var(--amber), var(--amber-dark)); }
+.bar-fill--green { background: linear-gradient(135deg, var(--green), var(--green-dark)); }
+.bar-fill--purple { background: linear-gradient(135deg, var(--purple), var(--purple-dark)); }
+
+/* ===== FLOWCHART / DECISION ===== */
+.flow-node {
+  background: var(--bg-slide);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.flow-node--amber { border-color: var(--amber); background: var(--amber-light); }
+.flow-node--green { border-color: var(--green); background: var(--green-light); }
+.flow-node--purple { border-color: var(--purple); background: var(--purple-light); }
+
+/* ===== MERMAID ===== */
+.mermaid-wrap {
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  overflow-x: auto;
+}
+
+.mermaid {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== SWIMLANE TIMELINE ===== */
+.swimlane { background: var(--bg-slide); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+.sl-head { display: flex; margin-bottom: 4px; }
+.sl-spacer { width: 88px; flex-shrink: 0; }
+.sl-weeks { flex: 1; display: flex; }
+.sl-weeks span { flex: 1; text-align: center; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.04em; }
+.sl-body { position: relative; }
+.sl-grid { position: absolute; inset: 0; left: 88px; display: flex; pointer-events: none; z-index: 0; }
+.sl-grid > div { flex: 1; border-left: 1px solid rgba(0,0,0,0.05); }
+.sl-grid > div:first-child { border-left: none; }
+.sl-lane { display: flex; padding: 4px 0; border-top: 1px solid #F0F0F0; position: relative; z-index: 1; }
+.sl-lane:first-child { border-top: none; }
+.sl-phase { width: 88px; flex-shrink: 0; font-size: 10px; font-weight: 700; color: var(--text-secondary); padding-top: 1px; line-height: 1.3; }
+.sl-tracks { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.sl-row { height: 16px; position: relative; }
+.sl-bar { position: absolute; top: 0; height: 14px; border-radius: 3px; display: flex; align-items: center; padding: 0 3px; font-size: 8px; font-weight: 600; color: rgba(255,255,255,0.95); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1; }
+.sl-bar--a { background: var(--amber); }
+.sl-bar--g { background: var(--green); }
+.sl-bar--p { background: var(--purple); }
+
+/* ===== ICON BULLETS ===== */
+.icon-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.icon-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 15px; line-height: 1.5; }
+.icon-list .icon { flex-shrink: 0; width: 22px; text-align: center; }
+
+/* ===== TWO COLUMNS (GETS / MISSES) ===== */
+.gets-misses { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.gets h4, .misses h4 { margin-bottom: 12px; }
+.gets { color: var(--green-dark); }
+.misses { color: var(--text-secondary); }
+
+/* ===== PROGRESS BAR ===== */
+#progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 100;
+  transition: width 0.4s ease;
+}
+
+/* ===== SLIDE COUNTER ===== */
+#counter {
+  position: fixed;
+  bottom: 24px;
+  right: 32px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  z-index: 100;
+  background: rgba(255,255,255,0.9);
+  padding: 6px 14px;
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+}
+
+/* ===== NAV ARROWS ===== */
+.nav-btn {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--text-secondary);
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.nav-btn:hover { background: #fff; box-shadow: var(--shadow-md); }
+#nav-prev { left: 16px; }
+#nav-next { right: 16px; }
+
+/* ===== OVERVIEW MODE ===== */
+#overview {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.92);
+  z-index: 200;
+  display: none;
+  overflow-y: auto;
+  padding: 48px;
+}
+
+#overview.open { display: block; }
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.overview-thumb {
+  aspect-ratio: 16/10;
+  background: var(--bg);
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: border-color 0.2s, transform 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.overview-thumb:hover { border-color: var(--accent); transform: scale(1.03); }
+.overview-thumb.current { border-color: var(--accent); }
+
+/* ===== TITLE SLIDE SPECIAL ===== */
+.title-slide {
+  background: linear-gradient(135deg, #FAFAFA 0%, #F0F0F0 100%);
+  text-align: center;
+}
+
+.title-slide h1 {
+  font-size: 52px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.title-brand {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.title-divider {
+  width: 60px;
+  height: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+  margin: 24px auto;
+}
+
+/* ===== Q&A SLIDE ===== */
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.link-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.link-icon { font-size: 28px; flex-shrink: 0; }
+.link-title { font-weight: 600; font-size: 15px; }
+.link-desc { font-size: 13px; color: var(--text-muted); }
+
+/* ===== ANIMATED ENTRANCE ===== */
+.slide.active .anim {
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.slide.active .anim-d1 { animation-delay: 0.1s; }
+.slide.active .anim-d2 { animation-delay: 0.2s; }
+.slide.active .anim-d3 { animation-delay: 0.3s; }
+.slide.active .anim-d4 { animation-delay: 0.4s; }
+.slide.active .anim-d5 { animation-delay: 0.5s; }
+
+.anim {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+@keyframes fadeUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== SCENARIO COMPARISON CARDS ===== */
+.scenario-card {
+  border-radius: var(--radius);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  border: 2px solid;
+  position: relative;
+}
+
+.scenario-card--amber { border-color: var(--amber); background: linear-gradient(180deg, var(--amber-light) 0%, #FFFDF5 100%); }
+.scenario-card--green { border-color: var(--green); background: linear-gradient(180deg, var(--green-light) 0%, #F7FFF7 100%); }
+.scenario-card--purple { border-color: var(--purple); background: linear-gradient(180deg, var(--purple-light) 0%, #F8F8FF 100%); }
+
+.scenario-name { font-size: 18px; font-weight: 800; }
+.scenario-name--amber { color: var(--amber-dark); }
+.scenario-name--green { color: var(--green-dark); }
+.scenario-name--purple { color: var(--purple-dark); }
+
+.scenario-stats { display: flex; gap: 16px; flex-wrap: wrap; }
+.scenario-stat { font-size: 13px; font-weight: 500; color: var(--text-secondary); }
+.scenario-stat strong { font-weight: 700; }
+
+/* ===== DECISION FRAMEWORK FLOW ===== */
+.decision-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.decision-q {
+  background: var(--bg-slide);
+  border: 2px solid var(--text);
+  border-radius: var(--radius);
+  padding: 16px 24px;
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  max-width: 400px;
+}
+
+.decision-arrows {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.decision-branch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: 200px;
+}
+
+.decision-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.decision-arrow {
+  font-size: 20px;
+  color: var(--text-muted);
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  html, body { overflow: visible; height: auto; background: white; }
+  .slide { position: relative; opacity: 1; pointer-events: auto; transform: none;
+    page-break-after: always; page-break-inside: avoid;
+    min-height: 100vh; }
+  #progress, #counter, .nav-btn, #overview { display: none !important; }
+  .anim { opacity: 1 !important; transform: none !important; animation: none !important; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .slide-inner { padding: 32px 24px; }
+  h1 { font-size: 32px; }
+  h2 { font-size: 24px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .gets-misses { grid-template-columns: 1fr; }
+  .title-slide h1 { font-size: 36px; }
+  .stat-value { font-size: 32px; }
+  .bar-label { width: 100px; font-size: 12px; }
+  .decision-arrows { flex-direction: column; gap: 16px; }
+}
+
+/* ===== KPI GRID ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.kpi {
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.kpi-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* ===== HEATMAP TABLE ===== */
+.heat-high { background: var(--red-light); color: var(--red); font-weight: 700; font-size: 12px; text-align: center; }
+.heat-med { background: #FEF9C3; color: #92400E; font-weight: 700; font-size: 12px; text-align: center; }
+.heat-low { background: var(--green-light); color: var(--green-dark); font-weight: 700; font-size: 12px; text-align: center; }
+
+/* ===== USER JOURNEY ===== */
+.journey {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.journey-step {
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  min-width: 120px;
+}
+
+.journey-arrow {
+  color: var(--text-muted);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ===== ACTION ITEMS ===== */
+.action-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.action-num {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.action-content { flex: 1; }
+.action-title { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+.action-desc { font-size: 13px; color: var(--text-muted); }
+
+/* ===== DONE ASSETS ===== */
+.asset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.asset {
+  background: var(--bg-slide);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+}
+
+.asset-icon { font-size: 32px; margin-bottom: 8px; }
+.asset-value { font-size: 28px; font-weight: 800; color: var(--accent); }
+.asset-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<button class="nav-btn" id="nav-prev" aria-label="Previous slide">&larr;</button>
+<button class="nav-btn" id="nav-next" aria-label="Next slide">&rarr;</button>
+
+<div id="counter"></div>
+
+<div id="overview">
+  <div class="overview-grid" id="overview-grid"></div>
+</div>
+
+<div class="deck" id="deck">
+
+<!-- ==================== SLIDE 1: TITLE ==================== -->
+<section class="slide title-slide" data-title="Title">
+  <div class="slide-inner text-center">
+    <div class="title-brand anim">word.tips Newsletter Initiative</div>
+    <h1 class="anim anim-d1">Three Paths<br>to Launch</h1>
+    <div class="title-divider anim anim-d2"></div>
+    <p class="subtitle anim anim-d3" style="margin: 0 auto;">Turning 86K existing users into a direct, owned channel.<br>One daily email at a time.</p>
+    <div class="mt-32 anim anim-d4" style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+      <span class="badge badge--amber">Scenario 1 &mdash; Test the Waters</span>
+      <span class="badge badge--green">Scenario 2 &mdash; Smart Launch</span>
+      <span class="badge badge--purple">Scenario 3 &mdash; Full Ferrari</span>
+    </div>
+    <p class="small-text mt-24 anim anim-d5">Navigate: Arrow keys &middot; Space &middot; Click arrows &nbsp;|&nbsp; Overview: Press O</p>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 2: THE OPPORTUNITY ==================== -->
+<section class="slide" data-title="The Opportunity">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Why Newsletter</div>
+    <h2 class="anim anim-d1">The Opportunity</h2>
+    <p class="subtitle anim anim-d2">word.tips depends on Google search. A newsletter builds a direct, owned relationship with our users &mdash; independent of algorithm changes.</p>
+
+    <div class="grid-3 mt-32">
+      <div class="card anim anim-d2">
+        <div class="stat">
+          <div class="stat-value" style="color: var(--accent);">86K</div>
+          <div class="stat-label">Existing Users</div>
+        </div>
+        <p class="small-text text-center">Registered accounts ready to activate via newsletter</p>
+      </div>
+      <div class="card anim anim-d3">
+        <div class="stat">
+          <div class="stat-value" style="color: var(--accent);">40%+</div>
+          <div class="stat-label">Target Open Rate</div>
+        </div>
+        <p class="small-text text-center">Industry benchmark for daily puzzle/game newsletters</p>
+      </div>
+      <div class="card anim anim-d4">
+        <div class="stat">
+          <div class="stat-value" style="color: var(--accent);">25%+</div>
+          <div class="stat-label">Target Return Rate</div>
+        </div>
+        <p class="small-text text-center">Email click &rarr; page visit, building a daily habit loop</p>
+      </div>
+    </div>
+
+    <div class="card card--accent mt-24 anim anim-d5">
+      <div class="flex gap-16 items-center">
+        <span style="font-size: 32px;">&#128640;</span>
+        <div>
+          <h4>Strategic Value</h4>
+          <p style="font-size: 14px; color: var(--text-secondary);">Move from search-only traffic to a multi-channel platform. Own the relationship. Reduce Google dependency. Open up sponsorship revenue.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 3: MVP FOCUS ==================== -->
+<section class="slide" data-title="MVP Focus">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">MVP Scope</div>
+    <h2 class="anim anim-d1">Connections Daily Hints</h2>
+    <p class="subtitle anim anim-d2">One newsletter, one page, one daily send. Prove the model before expanding.</p>
+
+    <div class="flex gap-32 mt-32 anim anim-d3" style="flex-wrap: wrap;">
+      <div class="flex-1" style="min-width: 300px;">
+        <h4 class="mb-16">User Journey</h4>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+          <div class="journey-step" style="background: var(--accent-light); border-color: var(--accent);">Lands on /connections-hints-today/</div>
+          <div style="text-align: center; color: var(--text-muted);">&darr;</div>
+          <div class="journey-step">Sees CTA &rarr; Enters email &rarr; Confirms opt-in</div>
+          <div style="text-align: center; color: var(--text-muted);">&darr;</div>
+          <div class="journey-step">Receives welcome email immediately</div>
+          <div style="text-align: center; color: var(--text-muted);">&darr;</div>
+          <div class="journey-step">Daily: Hints email at optimal time</div>
+          <div style="text-align: center; color: var(--text-muted);">&darr;</div>
+          <div class="journey-step">Post-puzzle: Engagement check / cross-sell</div>
+          <div style="text-align: center; color: var(--text-muted);">&darr;</div>
+          <div class="journey-step" style="background: #FEF3C7; border-color: var(--amber);">Inactive: Re-engagement sequence</div>
+        </div>
+      </div>
+      <div class="flex-1" style="min-width: 260px;">
+        <h4 class="mb-16">KPI Targets</h4>
+        <div class="kpi-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="kpi">
+            <div class="kpi-value">2-5%</div>
+            <div class="kpi-label">Capture Rate</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">95%+</div>
+            <div class="kpi-label">Deliverability</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">40%+</div>
+            <div class="kpi-label">Open Rate</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">15%+</div>
+            <div class="kpi-label">Click Rate</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">25%+</div>
+            <div class="kpi-label">Return Rate</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-value">&lt;0.5%</div>
+            <div class="kpi-label">Unsub Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 4: ARCHITECTURE ==================== -->
+<section class="slide" data-title="Architecture">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Technical Overview</div>
+    <h2 class="anim anim-d1">Architecture</h2>
+    <p class="subtitle anim anim-d2">Firestore as source of truth, synced to SendGrid for delivery. Cloudflare Workers handle automation.</p>
+
+    <div class="mermaid-wrap mt-24 anim anim-d3">
+      <div class="mermaid">
+graph LR
+  subgraph "Data Layer"
+    FS["Firestore<br/>(Source of Truth)"]
+  end
+  subgraph "Sync"
+    SW["Sync Worker<br/>(CF Worker)"]
+  end
+  subgraph "Email Delivery"
+    SG["SendGrid<br/>(Lists + Templates)"]
+  end
+  subgraph "Automation"
+    CW["Cron Worker<br/>(CF Worker)"]
+    DF["Data Fetcher<br/>(Connections API)"]
+  end
+  subgraph "Frontend"
+    WEB["word.tips<br/>(Capture CTAs)"]
+  end
+  subgraph "Analytics"
+    GA["GA4 + GTM"]
+    WH["Webhooks"]
+  end
+
+  FS <-->|"Bidirectional Sync"| SW
+  SW -->|"Contacts + Segments"| SG
+  CW -->|"Trigger Daily Send"| SG
+  DF -->|"Puzzle Data"| CW
+  WEB -->|"Email Submissions"| FS
+  SG -->|"Opens / Clicks"| WH
+  WH -->|"Events"| FS
+  WEB -->|"CTA Events"| GA
+  SG -->|"Email Events"| GA
+
+  style FS fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style SG fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style CW fill:#EEF2FF,stroke:#6366F1,stroke-width:2px
+  style DF fill:#EEF2FF,stroke:#6366F1,stroke-width:2px
+  style SW fill:#EEF2FF,stroke:#6366F1,stroke-width:2px
+  style WEB fill:#F0F0F0,stroke:#888,stroke-width:1px
+  style GA fill:#F0F0F0,stroke:#888,stroke-width:1px
+  style WH fill:#F0F0F0,stroke:#888,stroke-width:1px
+      </div>
+    </div>
+
+    <div class="flex gap-16 mt-16 anim anim-d4" style="flex-wrap: wrap;">
+      <div class="badge badge--neutral">Domain: newsletter.word.tips</div>
+      <div class="badge badge--neutral">Shared IP (MVP)</div>
+      <div class="badge badge--neutral">4 Sender Personas</div>
+      <div class="badge badge--neutral">Per-newsletter Unsubscribe</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 5: 3 SCENARIOS OVERVIEW ==================== -->
+<section class="slide" data-title="Scenarios Overview">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Choose Your Path</div>
+    <h2 class="anim anim-d1">Three Scenarios</h2>
+    <p class="subtitle anim anim-d2">Same architecture, different scope. Pick the depth that matches your risk appetite and timeline.</p>
+
+    <div class="grid-3 mt-32">
+      <div class="scenario-card scenario-card--amber anim anim-d2">
+        <div class="scenario-name scenario-name--amber">1. Test the Waters</div>
+        <p style="font-size: 14px; color: var(--text-secondary);">Bare-bones proof of concept. Can we send an email people open?</p>
+        <div class="scenario-stats">
+          <span class="scenario-stat"><strong>9</strong> tasks</span>
+          <span class="scenario-stat"><strong>31</strong> pts</span>
+          <span class="scenario-stat"><strong>2-3</strong> wks</span>
+        </div>
+        <div style="font-size: 13px; color: var(--amber-dark); font-weight: 500;">Logged-in capture only &middot; 1 template &middot; No sync worker</div>
+      </div>
+
+      <div class="scenario-card scenario-card--green anim anim-d3">
+        <div class="scenario-name scenario-name--green">2. Smart Launch</div>
+        <p style="font-size: 14px; color: var(--text-secondary);">Production-ready with compliance, onboarding, and guest capture.</p>
+        <div class="scenario-stats">
+          <span class="scenario-stat"><strong>17</strong> tasks</span>
+          <span class="scenario-stat"><strong>65</strong> pts</span>
+          <span class="scenario-stat"><strong>5-6</strong> wks</span>
+        </div>
+        <div style="font-size: 13px; color: var(--green-dark); font-weight: 500;">Full capture &middot; Welcome emails &middot; Double opt-in &middot; Sync</div>
+      </div>
+
+      <div class="scenario-card scenario-card--purple anim anim-d4">
+        <div class="scenario-name scenario-name--purple">3. Full Ferrari</div>
+        <p style="font-size: 14px; color: var(--text-secondary);">Complete system with analytics, re-engagement, and legacy import.</p>
+        <div class="scenario-stats">
+          <span class="scenario-stat"><strong>28</strong> tasks</span>
+          <span class="scenario-stat"><strong>~110</strong> pts</span>
+          <span class="scenario-stat"><strong>7-8</strong> wks</span>
+        </div>
+        <div style="font-size: 13px; color: var(--purple-dark); font-weight: 500;">Everything &middot; Dashboard &middot; A/B testing &middot; 86K import</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 6: SCENARIO 1 SCOPE ==================== -->
+<section class="slide" data-title="S1: Scope">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--amber anim">Scenario 1 &mdash; Test the Waters</div>
+    <h2 class="anim anim-d1">9 Tasks &middot; 31 Story Points</h2>
+    <p class="subtitle anim anim-d2">Absolute minimum to send one automated daily email to logged-in subscribers.</p>
+
+    <div class="table-wrap mt-24 anim anim-d3">
+      <table>
+        <thead>
+          <tr><th>Task</th><th>Jira</th><th>Pts</th><th>Epic</th><th>Type</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row--amber"><td>1.1 Domain Authentication</td><td><span class="jira-key">WDT-1182</span></td><td>3</td><td>Infrastructure</td><td>TECH</td></tr>
+          <tr class="row--amber"><td>1.2 Sender Identity Setup</td><td><span class="jira-key">WDT-1155</span></td><td>2</td><td>Infrastructure</td><td>TECH/PRODUCT</td></tr>
+          <tr class="row--amber"><td>6.1 Firestore Schema Extension</td><td><span class="jira-key">WDT-1178</span></td><td>3</td><td>Database</td><td>TECH</td></tr>
+          <tr class="row--amber"><td>6.2 SendGrid List Architecture</td><td><span class="jira-key">WDT-1179</span></td><td>3</td><td>Database</td><td>TECH/PRODUCT</td></tr>
+          <tr class="row--amber"><td>2.1 Capture Component Design</td><td><span class="jira-key">WDT-1159</span></td><td>5</td><td>Capture</td><td>PRODUCT</td></tr>
+          <tr class="row--amber"><td>3.1 Daily Hints Template</td><td><span class="jira-key">WDT-1164</span></td><td>5</td><td>Templates</td><td>PRODUCT</td></tr>
+          <tr class="row--amber"><td>4.1 Worker Setup</td><td><span class="jira-key">WDT-1168</span></td><td>3</td><td>Automation</td><td>TECH</td></tr>
+          <tr class="row--amber"><td>4.2 Cron Trigger</td><td><span class="jira-key">WDT-1169</span></td><td>2</td><td>Automation</td><td>TECH</td></tr>
+          <tr class="row--amber"><td>4.4 Batch Send Logic</td><td><span class="jira-key">WDT-1171</span></td><td>5</td><td>Automation</td><td>TECH</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex gap-16 mt-16 anim anim-d4" style="flex-wrap: wrap;">
+      <span class="badge badge--amber">Total: 31 pts</span>
+      <span class="badge badge--neutral">4 Epics touched</span>
+      <span class="badge badge--neutral">~2-3 weeks</span>
+      <span class="badge badge--neutral">1 dev</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 7: SCENARIO 1 DEPENDENCIES ==================== -->
+<section class="slide" data-title="S1: Dependencies">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--amber anim">Scenario 1 &mdash; Test the Waters</div>
+    <h2 class="anim anim-d1">Dependencies &amp; Timeline</h2>
+
+    <div class="mermaid-wrap mt-24 anim anim-d2">
+      <div class="mermaid">
+graph TD
+  A["1.1 Domain Auth<br/>3 pts"] --> B["1.2 Sender Identity<br/>2 pts"]
+  A --> G["4.1 Worker Setup<br/>3 pts"]
+  B --> E["2.1 Capture Component<br/>5 pts"]
+  B --> F["3.1 Daily Template<br/>5 pts"]
+  G --> H["4.2 Cron Trigger<br/>2 pts"]
+  H --> I["4.4 Batch Send<br/>5 pts"]
+  F --> I
+  C["6.1 Firestore Schema<br/>3 pts"] --> D["6.2 List Architecture<br/>3 pts"]
+  D --> E
+
+  style A fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style B fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style C fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style D fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style E fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style F fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style G fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style H fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+  style I fill:#FEF3C7,stroke:#F59E0B,stroke-width:2px
+      </div>
+    </div>
+
+    <div class="card card--amber mt-16 anim anim-d3">
+      <h4>Timeline: ~2-3 Weeks</h4>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-top: 4px;">
+        <strong>Week 1:</strong> Domain auth + Firestore schema + list architecture + sender identity (parallel tracks)<br>
+        <strong>Week 2:</strong> Capture component + daily template + worker setup + cron trigger<br>
+        <strong>Week 3:</strong> Batch send logic + integration testing + first send
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 8: SCENARIO 1 GETS / RISKS ==================== -->
+<section class="slide" data-title="S1: Gets & Risks">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--amber anim">Scenario 1 &mdash; Test the Waters</div>
+    <h2 class="anim anim-d1">What You Get &amp; What You Don't</h2>
+
+    <div class="gets-misses mt-24 anim anim-d2">
+      <div class="gets">
+        <h4 style="color: var(--green-dark);">&#9989; Gets</h4>
+        <ul class="icon-list">
+          <li><span class="icon">&#9679;</span> Basic email capture (logged-in users only)</li>
+          <li><span class="icon">&#9679;</span> One daily Connections hints email</li>
+          <li><span class="icon">&#9679;</span> Automated sending via Cloudflare Worker</li>
+          <li><span class="icon">&#9679;</span> Proper domain auth (SPF, DKIM, DMARC)</li>
+          <li><span class="icon">&#9679;</span> Validates the concept: do users open &amp; click?</li>
+        </ul>
+      </div>
+      <div class="misses">
+        <h4 style="color: var(--red);">&#10060; Missing</h4>
+        <ul class="icon-list" style="color: var(--text-secondary);">
+          <li><span class="icon">&#9679;</span> Guest capture (email input for non-logged-in)</li>
+          <li><span class="icon">&#9679;</span> Welcome emails / onboarding</li>
+          <li><span class="icon">&#9679;</span> Double opt-in compliance flow</li>
+          <li><span class="icon">&#9679;</span> Sync worker (Firestore &harr; SendGrid)</li>
+          <li><span class="icon">&#9679;</span> Unsubscribe management</li>
+          <li><span class="icon">&#9679;</span> Analytics / tracking</li>
+          <li><span class="icon">&#9679;</span> Re-engagement for inactive users</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-24 anim anim-d3">
+      <h4 class="mb-8">Risk Profile</h4>
+      <div class="flex gap-16 flex-wrap">
+        <span class="risk"><span class="risk-dot risk-dot--high"></span> Compliance (no double opt-in)</span>
+        <span class="risk"><span class="risk-dot risk-dot--high"></span> Guest capture missing</span>
+        <span class="risk"><span class="risk-dot risk-dot--medium"></span> No sync = manual data management</span>
+        <span class="risk"><span class="risk-dot risk-dot--medium"></span> No engagement tracking</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Deliverability (domain auth included)</span>
+      </div>
+    </div>
+
+    <div class="card mt-16 anim anim-d4" style="background: var(--amber-light); border: 1px solid var(--amber);">
+      <p style="font-size: 14px;"><strong>Bottom line:</strong> This is a proof-of-concept, not a product launch. Good for validating demand with minimal investment, but you cannot grow the list beyond logged-in users or measure success properly.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 9: SCENARIO 2 SCOPE ==================== -->
+<section class="slide" data-title="S2: Scope">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--green anim">Scenario 2 &mdash; Smart Launch</div>
+    <h2 class="anim anim-d1">17 Tasks &middot; 65 Story Points</h2>
+    <p class="subtitle anim anim-d2">Everything in Scenario 1 plus compliance, guest capture, welcome onboarding, sync, and basic tracking.</p>
+
+    <div class="table-wrap mt-24 anim anim-d3">
+      <table>
+        <thead>
+          <tr><th>Task</th><th>Jira</th><th>Pts</th><th>Epic</th><th>New</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row--dimmed"><td>1.1 Domain Authentication</td><td><span class="jira-key">WDT-1182</span></td><td>3</td><td>Infrastructure</td><td></td></tr>
+          <tr class="row--dimmed"><td>1.2 Sender Identity Setup</td><td><span class="jira-key">WDT-1155</span></td><td>2</td><td>Infrastructure</td><td></td></tr>
+          <tr class="row--green"><td>1.3 IP Warmup Plan</td><td><span class="jira-key">WDT-1156</span></td><td>2</td><td>Infrastructure</td><td><span class="badge badge--green">+S2</span></td></tr>
+          <tr class="row--green"><td>1.4 Unsubscribe Groups</td><td><span class="jira-key">WDT-1157</span></td><td>3</td><td>Infrastructure</td><td><span class="badge badge--green">+S2</span></td></tr>
+          <tr class="row--dimmed"><td>6.1 Firestore Schema Extension</td><td><span class="jira-key">WDT-1178</span></td><td>3</td><td>Database</td><td></td></tr>
+          <tr class="row--dimmed"><td>6.2 SendGrid List Architecture</td><td><span class="jira-key">WDT-1179</span></td><td>3</td><td>Database</td><td></td></tr>
+          <tr class="row--green"><td>6.3 Sync Worker</td><td><span class="jira-key">WDT-1180</span></td><td>8</td><td>Database</td><td><span class="badge badge--green">+S2</span></td></tr>
+          <tr class="row--dimmed"><td>2.1 Capture Component Design</td><td><span class="jira-key">WDT-1159</span></td><td>5</td><td>Capture</td><td></td></tr>
+          <tr class="row--green"><td>2.2 API Endpoint</td><td><span class="jira-key">WDT-1160</span></td><td>5</td><td>Capture</td><td><span class="badge badge--green">+S2</span></td></tr>
+          <tr class="row--green"><td>2.4 Double Opt-in Flow</td><td><span class="jira-key">WDT-1162</span></td><td>5</td><td>Capture</td><td><span class="badge badge--green">+S2</span></td></tr>
+          <tr class="row--dimmed"><td>3.1 Daily Hints Template</td><td><span class="jira-key">WDT-1164</span></td><td>5</td><td>Templates</td><td></td></tr>
+          <tr class="row--green"><td>3.2 Welcome Sequence</td><td><span class="jira-key">WDT-1165</span></td><td>5</td><td>Templates</td><td><span class="badge badge--green">+S2</span></td></tr>
+          <tr class="row--dimmed"><td>4.1 Worker Setup</td><td><span class="jira-key">WDT-1168</span></td><td>3</td><td>Automation</td><td></td></tr>
+          <tr class="row--dimmed"><td>4.2 Cron Trigger</td><td><span class="jira-key">WDT-1169</span></td><td>2</td><td>Automation</td><td></td></tr>
+          <tr class="row--green"><td>4.3 Data Fetcher Script</td><td><span class="jira-key">WDT-1170</span></td><td>3</td><td>Automation</td><td><span class="badge badge--green">+S2</span></td></tr>
+          <tr class="row--dimmed"><td>4.4 Batch Send Logic</td><td><span class="jira-key">WDT-1171</span></td><td>5</td><td>Automation</td><td></td></tr>
+          <tr class="row--green"><td>5.1 Event Tracking Schema</td><td><span class="jira-key">WDT-1172</span></td><td>3</td><td>Tracking</td><td><span class="badge badge--green">+S2</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex gap-16 mt-16 anim anim-d4" style="flex-wrap: wrap;">
+      <span class="badge badge--amber">S1: 31 pts (9 tasks)</span>
+      <span class="badge badge--green">+S2: 34 pts (8 tasks)</span>
+      <span class="badge badge--neutral">Total: 65 pts &middot; 17 tasks &middot; ~5-6 weeks</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 10: SCENARIO 2 DEPENDENCIES ==================== -->
+<section class="slide" data-title="S2: Dependencies">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--green anim">Scenario 2 &mdash; Smart Launch</div>
+    <h2 class="anim anim-d1">Dependencies &amp; Timeline</h2>
+
+    <div class="mermaid-wrap mt-24 anim anim-d2">
+      <div class="mermaid">
+graph TD
+  A["1.1 Domain Auth<br/>3 pts"] --> B["1.2 Sender Identity<br/>2 pts"]
+  A --> D["1.4 Unsubscribe Groups<br/>3 pts"]
+  A --> G["4.1 Worker Setup<br/>3 pts"]
+  B --> C["1.3 IP Warmup<br/>2 pts"]
+  B --> E["2.1 Capture Component<br/>5 pts"]
+  B --> F["3.1 Daily Template<br/>5 pts"]
+  B --> K["3.2 Welcome Sequence<br/>5 pts"]
+  G --> H["4.2 Cron Trigger<br/>2 pts"]
+  G --> L["4.3 Data Fetcher<br/>3 pts"]
+  H --> I["4.4 Batch Send<br/>5 pts"]
+  L --> I
+  F --> I
+  J1["6.1 Firestore Schema<br/>3 pts"] --> J2["6.2 List Architecture<br/>3 pts"]
+  J2 --> E
+  J1 --> J3["6.3 Sync Worker<br/>8 pts"]
+  J2 --> J3
+  J3 --> M["2.2 API Endpoint<br/>5 pts"]
+  M --> N["2.4 Double Opt-in<br/>5 pts"]
+  D --> N
+  E --> O["5.1 Event Tracking<br/>3 pts"]
+
+  style A fill:#FEF3C7,stroke:#F59E0B
+  style B fill:#FEF3C7,stroke:#F59E0B
+  style E fill:#FEF3C7,stroke:#F59E0B
+  style F fill:#FEF3C7,stroke:#F59E0B
+  style G fill:#FEF3C7,stroke:#F59E0B
+  style H fill:#FEF3C7,stroke:#F59E0B
+  style I fill:#FEF3C7,stroke:#F59E0B
+  style J1 fill:#FEF3C7,stroke:#F59E0B
+  style J2 fill:#FEF3C7,stroke:#F59E0B
+  style C fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style D fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style J3 fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style K fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style L fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style M fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style N fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+  style O fill:#E8F5E9,stroke:#4CAF82,stroke-width:2px
+      </div>
+    </div>
+
+    <div class="card card--green mt-16 anim anim-d3">
+      <h4>Timeline: ~5-6 Weeks (4 parallel streams)</h4>
+      <p style="font-size: 14px; color: var(--text-secondary); margin-top: 4px;">
+        <strong>Wk 1-2:</strong> Foundation &mdash; domain, schema, list architecture, sender identity, unsubscribe groups<br>
+        <strong>Wk 2-3:</strong> Core &mdash; sync worker, capture component, daily template, welcome sequence, workers<br>
+        <strong>Wk 3-4:</strong> Capture &mdash; API endpoint, data fetcher, cron trigger, IP warmup plan<br>
+        <strong>Wk 4-5:</strong> Compliance &mdash; double opt-in, batch send, event tracking schema<br>
+        <strong>Wk 5-6:</strong> Integration testing + first production send
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 11: SCENARIO 2 GETS / RISKS ==================== -->
+<section class="slide" data-title="S2: Gets & Risks">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--green anim">Scenario 2 &mdash; Smart Launch</div>
+    <h2 class="anim anim-d1">What You Get &amp; What You Don't</h2>
+
+    <div class="gets-misses mt-24 anim anim-d2">
+      <div class="gets">
+        <h4 style="color: var(--green-dark);">&#9989; Gets</h4>
+        <ul class="icon-list">
+          <li><span class="icon">&#9679;</span> Full email capture (guests + logged-in users)</li>
+          <li><span class="icon">&#9679;</span> Double opt-in compliance flow</li>
+          <li><span class="icon">&#9679;</span> Unsubscribe groups &amp; management</li>
+          <li><span class="icon">&#9679;</span> Welcome email onboarding sequence (3 emails)</li>
+          <li><span class="icon">&#9679;</span> Bidirectional Firestore &harr; SendGrid sync</li>
+          <li><span class="icon">&#9679;</span> Automated daily hints email</li>
+          <li><span class="icon">&#9679;</span> IP warmup plan for safe scaling</li>
+          <li><span class="icon">&#9679;</span> Basic event tracking schema</li>
+          <li><span class="icon">&#9679;</span> Dedicated data fetcher for puzzle content</li>
+        </ul>
+      </div>
+      <div class="misses">
+        <h4 style="color: var(--text-secondary);">&#128260; Deferred to S3</h4>
+        <ul class="icon-list" style="color: var(--text-secondary);">
+          <li><span class="icon">&#9679;</span> Analytics dashboard</li>
+          <li><span class="icon">&#9679;</span> A/B testing for CTAs</li>
+          <li><span class="icon">&#9679;</span> Re-engagement sequence</li>
+          <li><span class="icon">&#9679;</span> Post-solve check email</li>
+          <li><span class="icon">&#9679;</span> Email event webhooks</li>
+          <li><span class="icon">&#9679;</span> GA4 advanced audiences</li>
+          <li><span class="icon">&#9679;</span> Legacy 86K user import</li>
+          <li><span class="icon">&#9679;</span> Deliverability monitoring dashboard</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-24 anim anim-d3">
+      <h4 class="mb-8">Risk Profile</h4>
+      <div class="flex gap-16 flex-wrap">
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Compliance (double opt-in included)</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Deliverability (warmup plan + domain auth)</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Data integrity (sync worker active)</span>
+        <span class="risk"><span class="risk-dot risk-dot--medium"></span> Visibility (no dashboard yet)</span>
+        <span class="risk"><span class="risk-dot risk-dot--medium"></span> Retention (no re-engagement yet)</span>
+      </div>
+    </div>
+
+    <div class="card mt-16 anim anim-d4" style="background: var(--green-light); border: 1px solid var(--green);">
+      <p style="font-size: 14px;"><strong>Bottom line:</strong> This is a real product launch. Covers compliance, onboarding, and growth fundamentals. You can confidently grow the list and iterate. Analytics and optimization come next.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 12: SCENARIO 3 SCOPE ==================== -->
+<section class="slide" data-title="S3: Scope">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--purple anim">Scenario 3 &mdash; Full Ferrari</div>
+    <h2 class="anim anim-d1">28 Tasks &middot; ~110 Story Points</h2>
+    <p class="subtitle anim anim-d2">Complete newsletter system with analytics, re-engagement, legacy import, and advanced audiences.</p>
+
+    <div class="table-wrap mt-24 anim anim-d3" style="max-height: 420px; overflow-y: auto;">
+      <table>
+        <thead>
+          <tr><th>Task</th><th>Jira</th><th>Pts</th><th>Epic</th><th>Scenario</th></tr>
+        </thead>
+        <tbody>
+          <tr class="row--amber"><td>1.1 Domain Authentication</td><td><span class="jira-key">WDT-1182</span></td><td>3</td><td>Infrastructure</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--amber"><td>1.2 Sender Identity Setup</td><td><span class="jira-key">WDT-1155</span></td><td>2</td><td>Infrastructure</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--green"><td>1.3 IP Warmup Plan</td><td><span class="jira-key">WDT-1156</span></td><td>2</td><td>Infrastructure</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--green"><td>1.4 Unsubscribe Groups</td><td><span class="jira-key">WDT-1157</span></td><td>3</td><td>Infrastructure</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--purple"><td>1.5 Deliverability Monitoring</td><td><span class="jira-key">WDT-1158</span></td><td>5</td><td>Infrastructure</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--amber"><td>2.1 Capture Component Design</td><td><span class="jira-key">WDT-1159</span></td><td>5</td><td>Capture</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--green"><td>2.2 API Endpoint</td><td><span class="jira-key">WDT-1160</span></td><td>5</td><td>Capture</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--purple"><td>2.3 Landing Page Params</td><td><span class="jira-key">WDT-1161</span></td><td>3</td><td>Capture</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--green"><td>2.4 Double Opt-in Flow</td><td><span class="jira-key">WDT-1162</span></td><td>5</td><td>Capture</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--purple"><td>2.5 Logged-in User Flow</td><td><span class="jira-key">WDT-1163</span></td><td>5</td><td>Capture</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--amber"><td>3.1 Daily Hints Template</td><td><span class="jira-key">WDT-1164</span></td><td>5</td><td>Templates</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--green"><td>3.2 Welcome Sequence</td><td><span class="jira-key">WDT-1165</span></td><td>5</td><td>Templates</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--purple"><td>3.3 Post-Solve Check Email</td><td><span class="jira-key">WDT-1166</span></td><td>3</td><td>Templates</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--purple"><td>3.4 Re-engagement Sequence</td><td><span class="jira-key">WDT-1167</span></td><td>5</td><td>Templates</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--amber"><td>4.1 Worker Setup</td><td><span class="jira-key">WDT-1168</span></td><td>3</td><td>Automation</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--amber"><td>4.2 Cron Trigger</td><td><span class="jira-key">WDT-1169</span></td><td>2</td><td>Automation</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--green"><td>4.3 Data Fetcher Script</td><td><span class="jira-key">WDT-1170</span></td><td>3</td><td>Automation</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--amber"><td>4.4 Batch Send Logic</td><td><span class="jira-key">WDT-1171</span></td><td>5</td><td>Automation</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--green"><td>5.1 Event Tracking Schema</td><td><span class="jira-key">WDT-1172</span></td><td>3</td><td>Tracking</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--purple"><td>5.2 CTA Variant Tracking</td><td><span class="jira-key">WDT-1173</span></td><td>3</td><td>Tracking</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--purple"><td>5.3 Email Event Webhooks</td><td><span class="jira-key">WDT-1174</span></td><td>5</td><td>Tracking</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--purple"><td>5.4 Dashboard Setup</td><td><span class="jira-key">WDT-1175</span></td><td>5</td><td>Tracking</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--purple"><td>5.5 GA4 Events</td><td><span class="jira-key">WDT-1176</span></td><td>5</td><td>Tracking</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--purple"><td>5.6 Advanced GA4 Audiences</td><td><span class="jira-key">WDT-1177</span></td><td>8</td><td>Tracking</td><td><span class="badge badge--purple">S3</span></td></tr>
+          <tr class="row--amber"><td>6.1 Firestore Schema Extension</td><td><span class="jira-key">WDT-1178</span></td><td>3</td><td>Database</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--amber"><td>6.2 SendGrid List Architecture</td><td><span class="jira-key">WDT-1179</span></td><td>3</td><td>Database</td><td><span class="badge badge--amber">S1</span></td></tr>
+          <tr class="row--green"><td>6.3 Sync Worker</td><td><span class="jira-key">WDT-1180</span></td><td>8</td><td>Database</td><td><span class="badge badge--green">S2</span></td></tr>
+          <tr class="row--purple"><td>6.4 Legacy Import</td><td><span class="jira-key">WDT-1181</span></td><td>5</td><td>Database</td><td><span class="badge badge--purple">S3</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex gap-16 mt-16 anim anim-d4" style="flex-wrap: wrap;">
+      <span class="badge badge--amber">S1: 31 pts</span>
+      <span class="badge badge--green">S2: +34 pts</span>
+      <span class="badge badge--purple">S3: +~45 pts</span>
+      <span class="badge badge--neutral">Total: ~110 pts &middot; 28 tasks &middot; ~7-8 weeks</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 13: SCENARIO 3 DEPENDENCIES ==================== -->
+<section class="slide" data-title="S3: Dependencies">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--purple anim">Scenario 3 &mdash; Full Ferrari</div>
+    <h2 class="anim anim-d1">5-Phase Implementation</h2>
+
+    <div class="swimlane mt-24 anim anim-d2">
+      <div class="sl-head">
+        <div class="sl-spacer"></div>
+        <div class="sl-weeks"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span><span>W8</span></div>
+      </div>
+      <div class="sl-body">
+        <div class="sl-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+
+        <!-- Foundation -->
+        <div class="sl-lane">
+          <div class="sl-phase">Foundation</div>
+          <div class="sl-tracks">
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--a" style="left:0%;width:8%">1.1 Auth</div>
+              <div class="sl-bar sl-bar--a" style="left:9%;width:6%">1.2 Sender</div>
+              <div class="sl-bar sl-bar--g" style="left:16%;width:5%">1.3 Warmup</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--a" style="left:0%;width:8%">6.1 Schema</div>
+              <div class="sl-bar sl-bar--a" style="left:9%;width:8%">6.2 Lists</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--g" style="left:9%;width:8%">1.4 Unsub</div>
+              <div class="sl-bar sl-bar--p" style="left:18%;width:10%">1.5 Monitor</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Data + Capture -->
+        <div class="sl-lane">
+          <div class="sl-phase">Data &amp;<br>Capture</div>
+          <div class="sl-tracks">
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--g" style="left:18%;width:16%">6.3 Sync Worker</div>
+              <div class="sl-bar sl-bar--g" style="left:35%;width:11%">2.2 API</div>
+              <div class="sl-bar sl-bar--p" style="left:47%;width:6%">2.3 Params</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--a" style="left:15%;width:10%">2.1 Capture</div>
+              <div class="sl-bar sl-bar--p" style="left:26%;width:10%">2.5 Logged-in</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--p" style="left:35%;width:10%">6.4 Legacy</div>
+              <div class="sl-bar sl-bar--g" style="left:55%;width:12%">2.4 Opt-in</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="sl-lane">
+          <div class="sl-phase">Content</div>
+          <div class="sl-tracks">
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--a" style="left:15%;width:10%">3.1 Daily</div>
+              <div class="sl-bar sl-bar--p" style="left:26%;width:6%">3.3 Post-Solve</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--g" style="left:15%;width:10%">3.2 Welcome</div>
+              <div class="sl-bar sl-bar--p" style="left:26%;width:10%">3.4 Re-engage</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Automation -->
+        <div class="sl-lane">
+          <div class="sl-phase">Automation</div>
+          <div class="sl-tracks">
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--a" style="left:9%;width:8%">4.1 Worker</div>
+              <div class="sl-bar sl-bar--a" style="left:18%;width:5%">4.2 Cron</div>
+              <div class="sl-bar sl-bar--a" style="left:24%;width:10%">4.4 Batch</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--g" style="left:18%;width:7%">4.3 Fetcher</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Intelligence -->
+        <div class="sl-lane">
+          <div class="sl-phase">Intelligence</div>
+          <div class="sl-tracks">
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--g" style="left:26%;width:8%">5.1 Events</div>
+              <div class="sl-bar sl-bar--p" style="left:36%;width:10%">5.2 CTA</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--p" style="left:38%;width:14%">5.3 Webhooks</div>
+              <div class="sl-bar sl-bar--p" style="left:54%;width:14%">5.4 Dashboard</div>
+            </div>
+            <div class="sl-row">
+              <div class="sl-bar sl-bar--p" style="left:38%;width:14%">5.5 GA4</div>
+              <div class="sl-bar sl-bar--p" style="left:54%;width:18%">5.6 Audiences</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Legend -->
+      <div style="display:flex;gap:14px;margin-top:8px;padding-left:88px;">
+        <span style="font-size:9px;font-weight:600;color:var(--amber);">&#9632; S1 &middot; Quick Start</span>
+        <span style="font-size:9px;font-weight:600;color:var(--green);">&#9632; S2 &middot; Smart Build</span>
+        <span style="font-size:9px;font-weight:600;color:var(--purple);">&#9632; S3 &middot; Full Ferrari</span>
+      </div>
+    </div>
+
+    <div class="card card--purple mt-16 anim anim-d3">
+      <p style="font-size: 14px;"><strong>Key milestones:</strong> First email sent (~Week 3) &rarr; Guest capture live (~Week 4) &rarr; Full analytics (~Week 6) &rarr; Legacy import (~Week 7) &rarr; Complete system (~Week 8)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 14: SCENARIO 3 GETS ==================== -->
+<section class="slide" data-title="S3: Full Capabilities">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--purple anim">Scenario 3 &mdash; Full Ferrari</div>
+    <h2 class="anim anim-d1">Everything, Built Right</h2>
+
+    <div class="grid-3 mt-24 anim anim-d2">
+      <div class="card">
+        <h4>Infrastructure</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> Domain auth (SPF, DKIM, DMARC)</li>
+          <li><span class="icon check">&#10003;</span> 4 sender personas</li>
+          <li><span class="icon check">&#10003;</span> IP warmup plan</li>
+          <li><span class="icon check">&#10003;</span> Unsubscribe groups</li>
+          <li><span class="icon check">&#10003;</span> Deliverability monitoring</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Capture &amp; Compliance</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> Guest + logged-in capture</li>
+          <li><span class="icon check">&#10003;</span> 3 CTA placements, A/B tested</li>
+          <li><span class="icon check">&#10003;</span> Double opt-in flow</li>
+          <li><span class="icon check">&#10003;</span> Landing page params</li>
+          <li><span class="icon check">&#10003;</span> One-click toggle (logged-in)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Email Content</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> Daily hints template</li>
+          <li><span class="icon check">&#10003;</span> Welcome sequence (3 emails)</li>
+          <li><span class="icon check">&#10003;</span> Post-solve check email</li>
+          <li><span class="icon check">&#10003;</span> Re-engagement sequence</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Automation</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> Cloudflare Worker infra</li>
+          <li><span class="icon check">&#10003;</span> Daily cron trigger</li>
+          <li><span class="icon check">&#10003;</span> Data fetcher (Connections API)</li>
+          <li><span class="icon check">&#10003;</span> Batch send with throttling</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Analytics</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> Event tracking schema</li>
+          <li><span class="icon check">&#10003;</span> CTA variant tracking</li>
+          <li><span class="icon check">&#10003;</span> Email event webhooks</li>
+          <li><span class="icon check">&#10003;</span> Analytics dashboard</li>
+          <li><span class="icon check">&#10003;</span> GA4 events + audiences</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Data</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> Firestore schema extension</li>
+          <li><span class="icon check">&#10003;</span> SendGrid list architecture</li>
+          <li><span class="icon check">&#10003;</span> Bidirectional sync worker</li>
+          <li><span class="icon check">&#10003;</span> Legacy 86K user import</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-16 anim anim-d3">
+      <h4 class="mb-8">Risk Profile: All Green</h4>
+      <div class="flex gap-16 flex-wrap">
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Compliance</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Deliverability</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Data Integrity</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Visibility</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Retention</span>
+        <span class="risk"><span class="risk-dot risk-dot--low"></span> Scalability</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 15: FEATURE MATRIX ==================== -->
+<section class="slide" data-title="Feature Matrix">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Side-by-Side</div>
+    <h2 class="anim anim-d1">Feature Comparison</h2>
+
+    <div class="table-wrap mt-24 anim anim-d2" style="max-height: 500px; overflow-y: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 40%;">Capability</th>
+            <th class="text-center" style="width: 20%; background: var(--amber-light);">S1: Test</th>
+            <th class="text-center" style="width: 20%; background: var(--green-light);">S2: Smart</th>
+            <th class="text-center" style="width: 20%; background: var(--purple-light);">S3: Full</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Domain authentication</td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Sender personas</td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Daily hints email</td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Automated cron send</td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Logged-in capture</td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Guest capture (email input)</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Double opt-in</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Unsubscribe management</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Welcome sequence</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Firestore &harr; SendGrid sync</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>IP warmup plan</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Basic event tracking</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Re-engagement sequence</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Analytics dashboard</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>CTA A/B testing</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Advanced GA4 audiences</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+          <tr><td>Legacy 86K user import</td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="cross">&mdash;</span></td><td class="text-center"><span class="check">&#10003;</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 16: EFFORT & INVESTMENT ==================== -->
+<section class="slide" data-title="Effort & Investment">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Effort Comparison</div>
+    <h2 class="anim anim-d1">Effort &amp; Investment</h2>
+
+    <div class="mt-32 anim anim-d2">
+      <h4 class="mb-16">Story Points</h4>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">S1: Test</div>
+          <div class="bar-track"><div class="bar-fill bar-fill--amber" data-width="28">31</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">S2: Smart</div>
+          <div class="bar-track"><div class="bar-fill bar-fill--green" data-width="59">65</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">S3: Full</div>
+          <div class="bar-track"><div class="bar-fill bar-fill--purple" data-width="100">~110</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-32 anim anim-d3">
+      <h4 class="mb-16">Timeline (Weeks)</h4>
+      <div class="bar-chart">
+        <div class="bar-row">
+          <div class="bar-label">S1: Test</div>
+          <div class="bar-track"><div class="bar-fill bar-fill--amber" data-width="33">2-3 wks</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">S2: Smart</div>
+          <div class="bar-track"><div class="bar-fill bar-fill--green" data-width="69">5-6 wks</div></div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">S3: Full</div>
+          <div class="bar-track"><div class="bar-fill bar-fill--purple" data-width="100">7-8 wks</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3 mt-32 anim anim-d4">
+      <div class="card text-center" style="border-top: 3px solid var(--amber);">
+        <div class="stat-value stat-value--amber" style="font-size: 32px;">1</div>
+        <div class="stat-label">developer</div>
+        <div class="small-text mt-8">Part-time possible</div>
+      </div>
+      <div class="card text-center" style="border-top: 3px solid var(--green);">
+        <div class="stat-value stat-value--green" style="font-size: 32px;">1-2</div>
+        <div class="stat-label">developers</div>
+        <div class="small-text mt-8">Parallel streams help</div>
+      </div>
+      <div class="card text-center" style="border-top: 3px solid var(--purple);">
+        <div class="stat-value stat-value--purple" style="font-size: 32px;">2</div>
+        <div class="stat-label">developers</div>
+        <div class="small-text mt-8">4 parallel streams needed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 17: RISK MATRIX ==================== -->
+<section class="slide" data-title="Risk Matrix">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Risk Assessment</div>
+    <h2 class="anim anim-d1">Risk Matrix</h2>
+
+    <div class="table-wrap mt-24 anim anim-d2">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%;">Risk Area</th>
+            <th class="text-center" style="width: 23%; background: var(--amber-light);">S1: Test</th>
+            <th class="text-center" style="width: 23%; background: var(--green-light);">S2: Smart</th>
+            <th class="text-center" style="width: 23%; background: var(--purple-light);">S3: Full</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Deliverability</strong><br><span class="small-text">Can emails reach inboxes?</span></td>
+            <td class="heat-med">MEDIUM<br><span style="font-weight:400; font-size: 11px;">No warmup plan</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Warmup included</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">+ monitoring</span></td>
+          </tr>
+          <tr>
+            <td><strong>Compliance</strong><br><span class="small-text">GDPR, CAN-SPAM, opt-in</span></td>
+            <td class="heat-high">HIGH<br><span style="font-weight:400; font-size: 11px;">No double opt-in</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Full compliance</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Full compliance</span></td>
+          </tr>
+          <tr>
+            <td><strong>Growth</strong><br><span class="small-text">Can the list grow?</span></td>
+            <td class="heat-high">HIGH<br><span style="font-weight:400; font-size: 11px;">Logged-in only</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">All users</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">+ legacy import</span></td>
+          </tr>
+          <tr>
+            <td><strong>Data Integrity</strong><br><span class="small-text">Firestore &harr; SendGrid</span></td>
+            <td class="heat-high">HIGH<br><span style="font-weight:400; font-size: 11px;">No sync worker</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Sync active</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Sync active</span></td>
+          </tr>
+          <tr>
+            <td><strong>Visibility</strong><br><span class="small-text">Can you measure success?</span></td>
+            <td class="heat-high">HIGH<br><span style="font-weight:400; font-size: 11px;">No tracking</span></td>
+            <td class="heat-med">MEDIUM<br><span style="font-weight:400; font-size: 11px;">Basic events</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Full dashboard</span></td>
+          </tr>
+          <tr>
+            <td><strong>Retention</strong><br><span class="small-text">Keeping subscribers active</span></td>
+            <td class="heat-high">HIGH<br><span style="font-weight:400; font-size: 11px;">No sequences</span></td>
+            <td class="heat-med">MEDIUM<br><span style="font-weight:400; font-size: 11px;">Welcome only</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Full lifecycle</span></td>
+          </tr>
+          <tr>
+            <td><strong>Scalability</strong><br><span class="small-text">Ready for more newsletters?</span></td>
+            <td class="heat-med">MEDIUM<br><span style="font-weight:400; font-size: 11px;">Foundation only</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Extensible</span></td>
+            <td class="heat-low">LOW<br><span style="font-weight:400; font-size: 11px;">Fully ready</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 18: EXPANSION READINESS ==================== -->
+<section class="slide" data-title="Expansion Readiness">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Post-MVP</div>
+    <h2 class="anim anim-d1">Expansion Readiness</h2>
+    <p class="subtitle anim anim-d2">After Connections, these are the next moves. How ready is each scenario to support them?</p>
+
+    <div class="table-wrap mt-24 anim anim-d3">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%;">Future Feature</th>
+            <th class="text-center" style="width: 23%; background: var(--amber-light);">S1: Test</th>
+            <th class="text-center" style="width: 23%; background: var(--green-light);">S2: Smart</th>
+            <th class="text-center" style="width: 23%; background: var(--purple-light);">S3: Full</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Wordle newsletter</strong><br><span class="small-text">Second daily newsletter</span></td>
+            <td class="text-center"><span class="small-text">Significant rework</span></td>
+            <td class="text-center"><span class="small-text">New template + list</span></td>
+            <td class="text-center"><span class="check">Plug and play</span></td>
+          </tr>
+          <tr>
+            <td><strong>Mini Crossword, Strands</strong><br><span class="small-text">Multi-game coverage</span></td>
+            <td class="text-center"><span class="small-text">Major rework</span></td>
+            <td class="text-center"><span class="small-text">Template per game</span></td>
+            <td class="text-center"><span class="check">Audiences ready</span></td>
+          </tr>
+          <tr>
+            <td><strong>Sponsor slots</strong><br><span class="small-text">Revenue from ads in emails</span></td>
+            <td class="text-center"><span class="small-text">Template rebuild</span></td>
+            <td class="text-center"><span class="small-text">Template tweak</span></td>
+            <td class="text-center"><span class="check">A/B-testable slots</span></td>
+          </tr>
+          <tr>
+            <td><strong>Referral program</strong><br><span class="small-text">Viral growth loops</span></td>
+            <td class="text-center"><span class="small-text">No foundation</span></td>
+            <td class="text-center"><span class="small-text">Tracking needed</span></td>
+            <td class="text-center"><span class="check">Events + audiences</span></td>
+          </tr>
+          <tr>
+            <td><strong>Preference center</strong><br><span class="small-text">Users choose what they get</span></td>
+            <td class="text-center"><span class="small-text">Not supported</span></td>
+            <td class="text-center"><span class="small-text">Unsub groups ready</span></td>
+            <td class="text-center"><span class="check">Full foundation</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card mt-16 anim anim-d4">
+      <p style="font-size: 14px; color: var(--text-secondary);">
+        <strong>Key insight:</strong> S1 needs significant rework for each expansion. S2 has the right foundation to iterate fast. S3 is designed from the start for multi-newsletter, multi-game scale.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 19: DECISION FRAMEWORK ==================== -->
+<section class="slide" data-title="Decision Framework">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Your Call</div>
+    <h2 class="anim anim-d1">Decision Framework</h2>
+    <p class="subtitle anim anim-d2">What matters most to you right now?</p>
+
+    <div class="mt-32 anim anim-d3">
+      <div class="decision-flow">
+        <div class="decision-q">What's the priority?</div>
+        <div class="decision-arrow">&darr;</div>
+        <div class="decision-arrows">
+          <div class="decision-branch">
+            <div class="decision-label">"Validate demand fast"</div>
+            <div class="decision-arrow">&darr;</div>
+            <div class="flow-node flow-node--amber">
+              <strong>S1: Test the Waters</strong><br>
+              <span style="font-size: 13px;">31 pts &middot; 2-3 wks</span>
+            </div>
+            <div class="small-text mt-8 text-center">Cheapest way to learn.<br>Can users open &amp; click?</div>
+          </div>
+          <div class="decision-branch">
+            <div class="decision-label">"Launch a real product"</div>
+            <div class="decision-arrow">&darr;</div>
+            <div class="flow-node flow-node--green">
+              <strong>S2: Smart Launch</strong><br>
+              <span style="font-size: 13px;">65 pts &middot; 5-6 wks</span>
+            </div>
+            <div class="small-text mt-8 text-center">Grow the list properly.<br>Compliance &amp; onboarding built in.</div>
+          </div>
+          <div class="decision-branch">
+            <div class="decision-label">"Build the platform"</div>
+            <div class="decision-arrow">&darr;</div>
+            <div class="flow-node flow-node--purple">
+              <strong>S3: Full Ferrari</strong><br>
+              <span style="font-size: 13px;">~110 pts &middot; 7-8 wks</span>
+            </div>
+            <div class="small-text mt-8 text-center">Complete system.<br>Analytics + import + scale-ready.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-3 mt-32 anim anim-d4">
+      <div class="card card--flat text-center" style="border-top: 3px solid var(--amber);">
+        <p style="font-size: 13px; font-weight: 500;">Best for: <strong>Low confidence</strong> in newsletter demand</p>
+      </div>
+      <div class="card card--flat text-center" style="border-top: 3px solid var(--green);">
+        <p style="font-size: 13px; font-weight: 500;">Best for: <strong>High confidence</strong>, measured approach</p>
+      </div>
+      <div class="card card--flat text-center" style="border-top: 3px solid var(--purple);">
+        <p style="font-size: 13px; font-weight: 500;">Best for: <strong>Full commitment</strong> to newsletter as channel</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 20: WHAT'S ALREADY DONE ==================== -->
+<section class="slide" data-title="What's Done">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Planning Complete</div>
+    <h2 class="anim anim-d1">What's Already Done</h2>
+    <p class="subtitle anim anim-d2">Regardless of which scenario you choose, the planning work is complete and ready for handoff.</p>
+
+    <div class="asset-grid mt-32 anim anim-d3">
+      <div class="asset">
+        <div class="asset-icon">&#128214;</div>
+        <div class="asset-value">80</div>
+        <div class="asset-label">Confluence Pages</div>
+      </div>
+      <div class="asset">
+        <div class="asset-icon">&#127919;</div>
+        <div class="asset-value">30</div>
+        <div class="asset-label">Jira Stories</div>
+      </div>
+      <div class="asset">
+        <div class="asset-icon">&#128221;</div>
+        <div class="asset-value">28</div>
+        <div class="asset-label">Full Spec Docs</div>
+      </div>
+      <div class="asset">
+        <div class="asset-icon">&#128233;</div>
+        <div class="asset-value">9</div>
+        <div class="asset-label">HTML Email Mockups</div>
+      </div>
+      <div class="asset">
+        <div class="asset-icon">&#127912;</div>
+        <div class="asset-value">56</div>
+        <div class="asset-label">CTA Component States</div>
+      </div>
+      <div class="asset">
+        <div class="asset-icon">&#129417;</div>
+        <div class="asset-value">4</div>
+        <div class="asset-label">Sender Personas</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mt-24 anim anim-d4">
+      <div class="card">
+        <h4>Product Specs</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> All 28 tasks fully specified (spec.md + jira.md)</li>
+          <li><span class="icon check">&#10003;</span> Naming conventions for SendGrid, Firestore, GA4</li>
+          <li><span class="icon check">&#10003;</span> Implementation order with dependencies</li>
+          <li><span class="icon check">&#10003;</span> CTA copy variants (2 per placement)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4>Design Assets</h4>
+        <ul class="icon-list" style="font-size: 13px;">
+          <li><span class="icon check">&#10003;</span> Interactive CTA gallery (desktop + mobile)</li>
+          <li><span class="icon check">&#10003;</span> Email templates with sample data</li>
+          <li><span class="icon check">&#10003;</span> Persona voice guides + AI avatar prompts</li>
+          <li><span class="icon check">&#10003;</span> GitHub Pages preview site</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 21: NEXT STEPS ==================== -->
+<section class="slide" data-title="Next Steps">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Moving Forward</div>
+    <h2 class="anim anim-d1">Next Steps</h2>
+    <p class="subtitle anim anim-d2">Pick a scenario, then execute. Here's what happens next.</p>
+
+    <div class="flex flex-col gap-12 mt-32">
+      <div class="action-item anim anim-d2">
+        <div class="action-num">1</div>
+        <div class="action-content">
+          <div class="action-title">Choose a scenario</div>
+          <div class="action-desc">Align on scope: Test (S1), Smart Launch (S2), or Full (S3). This decision unlocks everything else.</div>
+        </div>
+      </div>
+      <div class="action-item anim anim-d2">
+        <div class="action-num">2</div>
+        <div class="action-content">
+          <div class="action-title">Assign the dev team</div>
+          <div class="action-desc">S1 = 1 dev part-time. S2 = 1-2 devs. S3 = 2 devs working in parallel streams.</div>
+        </div>
+      </div>
+      <div class="action-item anim anim-d3">
+        <div class="action-num">3</div>
+        <div class="action-content">
+          <div class="action-title">Domain authentication (Day 1)</div>
+          <div class="action-desc">DNS records for newsletter.word.tips. Required for all scenarios. Can start immediately.</div>
+        </div>
+      </div>
+      <div class="action-item anim anim-d3">
+        <div class="action-num">4</div>
+        <div class="action-content">
+          <div class="action-title">SendGrid account setup</div>
+          <div class="action-desc">Create account, configure API keys, set up sender identities. Parallel with DNS propagation.</div>
+        </div>
+      </div>
+      <div class="action-item anim anim-d4">
+        <div class="action-num">5</div>
+        <div class="action-content">
+          <div class="action-title">Jira sprint planning</div>
+          <div class="action-desc">30 stories already created under WDT-1077. Filter by scenario scope and plan Sprint 1.</div>
+        </div>
+      </div>
+      <div class="action-item anim anim-d4">
+        <div class="action-num">6</div>
+        <div class="action-content">
+          <div class="action-title">First email target</div>
+          <div class="action-desc">Critical path: Domain Auth &rarr; Sender Identity &rarr; Template &rarr; Worker &rarr; Send. First email in ~2 weeks for all scenarios.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SLIDE 22: Q&A ==================== -->
+<section class="slide" data-title="Q&A">
+  <div class="slide-inner text-center">
+    <div class="anim">
+      <div style="font-size: 48px; margin-bottom: 24px;">&#128172;</div>
+      <h2>Questions?</h2>
+      <p class="subtitle" style="margin: 12px auto 0;">All planning assets are ready for review.</p>
+    </div>
+
+    <div class="title-divider anim anim-d1"></div>
+
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 480px; margin: 0 auto;" class="anim anim-d2">
+      <a class="link-card" href="https://cliqpod.atlassian.net/wiki/spaces/Newsletter" target="_blank" rel="noopener">
+        <span class="link-icon">&#128214;</span>
+        <div>
+          <div class="link-title">Confluence Space</div>
+          <div class="link-desc">80 pages &mdash; specs, strategy, reference docs</div>
+        </div>
+      </a>
+      <a class="link-card" href="https://cliqpod.atlassian.net/browse/WDT-1077" target="_blank" rel="noopener">
+        <span class="link-icon">&#127919;</span>
+        <div>
+          <div class="link-title">Jira Epic WDT-1077</div>
+          <div class="link-desc">30 stories &mdash; ready for sprint planning</div>
+        </div>
+      </a>
+      <a class="link-card" href="#" target="_blank" rel="noopener">
+        <span class="link-icon">&#127912;</span>
+        <div>
+          <div class="link-title">Design Previews</div>
+          <div class="link-desc">CTA gallery, email templates, persona guides</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="mt-32 anim anim-d3">
+      <p class="small-text">Newsletter Channel Initiative &middot; word.tips &middot; March 2026</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /deck -->
+
+<script>
+// ===== MERMAID INIT =====
+mermaid.initialize({
+  startOnLoad: true,
+  theme: 'neutral',
+  themeVariables: {
+    fontFamily: 'Inter, sans-serif',
+    fontSize: '13px',
+    primaryColor: '#E8F5E9',
+    primaryBorderColor: '#4CAF82',
+    lineColor: '#888',
+    secondaryColor: '#FEF3C7',
+    tertiaryColor: '#EEF2FF'
+  },
+  flowchart: { curve: 'basis', padding: 16 },
+  gantt: {
+    titleTopMargin: 16,
+    barHeight: 20,
+    barGap: 4,
+    topPadding: 40,
+    leftPadding: 100,
+    gridLineStartPadding: 20,
+    fontSize: 12,
+    sectionFontSize: 13
+  }
+});
+
+// ===== SLIDE ENGINE =====
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+let current = 0;
+
+function showSlide(n, direction) {
+  if (n < 0 || n >= total) return;
+  const prev = current;
+  current = n;
+
+  slides.forEach((s, i) => {
+    s.classList.remove('active', 'exit-left');
+    if (i === current) {
+      s.classList.add('active');
+    } else if (i === prev && direction === 'next') {
+      s.classList.add('exit-left');
+    }
+  });
+
+  updateProgress();
+  updateCounter();
+}
+
+function next() { showSlide(current + 1, 'next'); }
+function prev() { showSlide(current - 1, 'prev'); }
+
+function updateProgress() {
+  const pct = ((current + 1) / total) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+}
+
+function updateCounter() {
+  document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+}
+
+// ===== KEYBOARD NAV =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  if (e.key === 'ArrowDown') { e.preventDefault(); next(); }
+  if (e.key === 'ArrowUp') { e.preventDefault(); prev(); }
+  if (e.key === 'Home') { e.preventDefault(); showSlide(0, 'prev'); }
+  if (e.key === 'End') { e.preventDefault(); showSlide(total - 1, 'next'); }
+  if (e.key === 'o' || e.key === 'O') { toggleOverview(); }
+  if (e.key === 'Escape') { closeOverview(); }
+});
+
+// ===== CLICK NAV =====
+document.getElementById('nav-prev').addEventListener('click', prev);
+document.getElementById('nav-next').addEventListener('click', next);
+
+// ===== OVERVIEW MODE =====
+function toggleOverview() {
+  const ov = document.getElementById('overview');
+  if (ov.classList.contains('open')) {
+    closeOverview();
+  } else {
+    openOverview();
+  }
+}
+
+function openOverview() {
+  const ov = document.getElementById('overview');
+  const grid = document.getElementById('overview-grid');
+  grid.innerHTML = '';
+
+  slides.forEach((s, i) => {
+    const thumb = document.createElement('div');
+    thumb.className = 'overview-thumb' + (i === current ? ' current' : '');
+    thumb.textContent = (i + 1) + '. ' + (s.dataset.title || 'Slide ' + (i + 1));
+    thumb.addEventListener('click', () => {
+      showSlide(i, i > current ? 'next' : 'prev');
+      closeOverview();
+    });
+    grid.appendChild(thumb);
+  });
+
+  ov.classList.add('open');
+}
+
+function closeOverview() {
+  document.getElementById('overview').classList.remove('open');
+}
+
+// ===== BAR CHART ANIMATION =====
+function animateBars() {
+  const activeSlide = slides[current];
+  if (!activeSlide) return;
+  const bars = activeSlide.querySelectorAll('.bar-fill');
+  bars.forEach(bar => {
+    const w = bar.getAttribute('data-width');
+    if (w) bar.style.width = w + '%';
+  });
+}
+
+// Observe slide changes for bar animations
+const observer = new MutationObserver(() => {
+  setTimeout(animateBars, 300);
+});
+slides.forEach(s => {
+  observer.observe(s, { attributes: true, attributeFilter: ['class'] });
+});
+
+// ===== TOUCH SUPPORT =====
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+document.addEventListener('touchend', (e) => {
+  const diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    if (diff > 0) next(); else prev();
+  }
+});
+
+// ===== INIT =====
+showSlide(0, 'next');
+</script>
+
+</body>
+</html>
