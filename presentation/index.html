@@ -577,6 +577,100 @@ tr.row--dimmed { opacity: 0.45; }
   color: var(--text-muted);
 }
 
+/* ===== EVENT TRACKING CARDS ===== */
+.system-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.system-card {
+  background: var(--bg-slide);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: opacity 0.3s ease;
+}
+
+.system-card--active-amber { border-color: var(--amber); }
+.system-card--active-green { border-color: var(--green); }
+.system-card--active-purple { border-color: var(--purple); }
+.system-card--dimmed {
+  border-style: dashed;
+  border-color: var(--border);
+  opacity: 0.35;
+}
+
+.system-role {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.system-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.event-list li { padding: 1px 0; }
+.evt-active { color: var(--text); }
+.evt-gap { color: var(--text-muted); opacity: 0.4; text-decoration: line-through; }
+.evt-conversion::after { content: " \2605"; color: var(--amber); font-size: 11px; }
+
+.data-flow-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.flow-box {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.flow-box--dimmed { opacity: 0.35; text-decoration: line-through; }
+
+.flow-arrow {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.flow-arrow--dimmed { opacity: 0.35; }
+
+.insight-card {
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  font-size: 14px;
+  line-height: 1.5;
+  border-left: 4px solid var(--accent);
+  background: var(--bg);
+}
+
+.insight-card--amber { border-left-color: var(--amber); background: var(--amber-light); }
+.insight-card--green { border-left-color: var(--green); background: var(--green-light); }
+.insight-card--purple { border-left-color: var(--purple); background: var(--purple-light); }
+
 /* ===== PRINT STYLES ===== */
 @media print {
   html, body { overflow: visible; height: auto; background: white; }
@@ -598,6 +692,8 @@ tr.row--dimmed { opacity: 0.45; }
   .stat-value { font-size: 32px; }
   .bar-label { width: 100px; font-size: 12px; }
   .decision-arrows { flex-direction: column; gap: 16px; }
+  .system-grid { grid-template-columns: 1fr; }
+  .data-flow-strip { flex-direction: column; gap: 4px; }
 }
 
 /* ===== KPI GRID ===== */
@@ -899,6 +995,73 @@ graph LR
   </div>
 </section>
 
+<!-- ==================== PROJECT-LEVEL EVENT TRACKING ==================== -->
+<section class="slide" data-title="Event Tracking Overview">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--neutral anim">Technical Overview</div>
+    <h2 class="anim anim-d1">Event Tracking &amp; Data Flow</h2>
+    <p class="subtitle anim anim-d1" style="font-size: 15px;">Three systems, one source of truth. The complete event landscape across the newsletter stack.</p>
+
+    <div class="system-grid mt-24 anim anim-d2">
+      <div class="system-card" style="border-color: var(--green);">
+        <div class="system-role">Source of Truth</div>
+        <div class="system-name">Firestore</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>subscriptions[]</code></li>
+          <li class="evt-active"><code>{page}.subscribed_at</code></li>
+          <li class="evt-active"><code>{page}.status</code></li>
+          <li class="evt-active"><code>last_email_sent/opened/clicked</code></li>
+          <li class="evt-active"><code>emails_sent/opened/clicked_count</code></li>
+          <li class="evt-active"><code>engagement_bucket</code> (hot/warm/cold)</li>
+          <li class="evt-active"><code>open_rate_30d</code> / <code>click_rate_30d</code></li>
+        </ul>
+      </div>
+
+      <div class="system-card" style="border-color: var(--text-muted);">
+        <div class="system-role">Web Analytics</div>
+        <div class="system-name">GA4 (gtag.js)</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>newsletter_cta_view</code></li>
+          <li class="evt-active"><code>newsletter_cta_click</code></li>
+          <li class="evt-active"><code>newsletter_form_start</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_form_submit</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_optin_toggle</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_optin_confirmed</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_email_click</code></li>
+          <li class="evt-active">CTA variant tracking</li>
+          <li class="evt-active">8 audience segments</li>
+        </ul>
+      </div>
+
+      <div class="system-card" style="border-color: var(--amber);">
+        <div class="system-role">Email Delivery</div>
+        <div class="system-name">SendGrid</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>delivered</code></li>
+          <li class="evt-active"><code>open</code> / <code>click</code></li>
+          <li class="evt-active"><code>bounce</code></li>
+          <li class="evt-active"><code>unsubscribe</code></li>
+          <li class="evt-active"><code>spamreport</code></li>
+          <li class="evt-active"><code>processed</code> / <code>dropped</code></li>
+          <li class="evt-active">Webhook &rarr; Firestore sync</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="data-flow-strip mt-16 anim anim-d3">
+      <span class="flow-box">word.tips &rarr; gtag() &rarr; GA4</span>
+      <span class="flow-arrow">|</span>
+      <span class="flow-box">word.tips &rarr; Firestore &harr; Sync Worker &harr; SendGrid</span>
+      <span class="flow-arrow">|</span>
+      <span class="flow-box">SendGrid &rarr; Webhooks &rarr; Firestore</span>
+    </div>
+
+    <div class="insight-card mt-16 anim anim-d4">
+      <strong>Three systems, one source of truth.</strong> Firestore holds the canonical user state; GA4 tracks the web funnel; SendGrid events sync back via webhooks.
+    </div>
+  </div>
+</section>
+
 <!-- ==================== SLIDE 5: 3 SCENARIOS OVERVIEW ==================== -->
 <section class="slide" data-title="Scenarios Overview">
   <div class="slide-inner">
@@ -1016,6 +1179,73 @@ graph TD
         <strong>Week 2:</strong> Capture component + daily template + worker setup + cron trigger<br>
         <strong>Week 3:</strong> Batch send logic + integration testing + first send
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== S1 EVENT TRACKING ==================== -->
+<section class="slide" data-title="S1: Event Tracking">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--amber anim">Scenario 1 &mdash; Test the Waters</div>
+    <h2 class="anim anim-d1">Event Tracking &amp; Data Flow</h2>
+    <p class="subtitle anim anim-d1" style="font-size: 15px;">Minimal tracking &mdash; SendGrid records events internally, but nothing feeds back.</p>
+
+    <div class="system-grid mt-24 anim anim-d2">
+      <div class="system-card system-card--active-amber">
+        <div class="system-role">Source of Truth</div>
+        <div class="system-name">Firestore</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>subscriptions[]</code></li>
+          <li class="evt-active"><code>{page}.subscribed_at</code></li>
+          <li class="evt-active"><code>{page}.status</code></li>
+          <li class="evt-gap"><code>last_email_sent/opened/clicked</code></li>
+          <li class="evt-gap"><code>emails_sent/opened/clicked_count</code></li>
+          <li class="evt-gap"><code>engagement_bucket</code> (hot/warm/cold)</li>
+          <li class="evt-gap"><code>open_rate_30d</code> / <code>click_rate_30d</code></li>
+        </ul>
+      </div>
+
+      <div class="system-card system-card--dimmed">
+        <div class="system-role">Web Analytics</div>
+        <div class="system-name">GA4 (gtag.js)</div>
+        <ul class="event-list">
+          <li class="evt-gap"><code>newsletter_cta_view</code></li>
+          <li class="evt-gap"><code>newsletter_cta_click</code></li>
+          <li class="evt-gap"><code>newsletter_form_start</code></li>
+          <li class="evt-gap"><code>newsletter_form_submit</code></li>
+          <li class="evt-gap"><code>newsletter_optin_toggle</code></li>
+          <li class="evt-gap"><code>newsletter_optin_confirmed</code></li>
+          <li class="evt-gap"><code>newsletter_email_click</code></li>
+          <li class="evt-gap">CTA variant tracking</li>
+          <li class="evt-gap">8 audience segments</li>
+        </ul>
+      </div>
+
+      <div class="system-card system-card--active-amber">
+        <div class="system-role">Email Delivery</div>
+        <div class="system-name">SendGrid</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>delivered</code></li>
+          <li class="evt-active"><code>open</code> / <code>click</code></li>
+          <li class="evt-active"><code>bounce</code></li>
+          <li class="evt-active"><code>unsubscribe</code></li>
+          <li class="evt-active"><code>spamreport</code></li>
+          <li class="evt-active"><code>processed</code> / <code>dropped</code></li>
+          <li class="evt-gap">Webhook &rarr; Firestore sync</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="data-flow-strip mt-16 anim anim-d3">
+      <span class="flow-box flow-box--dimmed">word.tips &rarr; gtag() &rarr; GA4</span>
+      <span class="flow-arrow flow-arrow--dimmed">|</span>
+      <span class="flow-box">Firestore &rarr; SendGrid (one-way, no sync worker)</span>
+      <span class="flow-arrow flow-arrow--dimmed">|</span>
+      <span class="flow-box flow-box--dimmed">SendGrid &rarr; Webhooks &rarr; Firestore</span>
+    </div>
+
+    <div class="insight-card insight-card--amber mt-16 anim anim-d4">
+      <strong>Blind spot:</strong> SendGrid records opens/clicks internally, but nothing feeds back to Firestore. GA4 has zero newsletter visibility.
     </div>
   </div>
 </section>
@@ -1169,6 +1399,73 @@ graph TD
         <strong>Wk 4-5:</strong> Compliance &mdash; double opt-in, batch send, event tracking schema<br>
         <strong>Wk 5-6:</strong> Integration testing + first production send
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== S2 EVENT TRACKING ==================== -->
+<section class="slide" data-title="S2: Event Tracking">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--green anim">Scenario 2 &mdash; Smart Launch</div>
+    <h2 class="anim anim-d1">Event Tracking &amp; Data Flow</h2>
+    <p class="subtitle anim anim-d1" style="font-size: 15px;">Solid foundation &mdash; capture funnel tracked, email events still siloed in SendGrid.</p>
+
+    <div class="system-grid mt-24 anim anim-d2">
+      <div class="system-card system-card--active-green">
+        <div class="system-role">Source of Truth</div>
+        <div class="system-name">Firestore</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>subscriptions[]</code></li>
+          <li class="evt-active"><code>{page}.subscribed_at</code></li>
+          <li class="evt-active"><code>{page}.status</code></li>
+          <li class="evt-active"><code>last_email_sent/opened/clicked</code></li>
+          <li class="evt-active"><code>emails_sent/opened/clicked_count</code></li>
+          <li class="evt-gap"><code>engagement_bucket</code> (hot/warm/cold)</li>
+          <li class="evt-gap"><code>open_rate_30d</code> / <code>click_rate_30d</code></li>
+        </ul>
+      </div>
+
+      <div class="system-card system-card--active-green">
+        <div class="system-role">Web Analytics</div>
+        <div class="system-name">GA4 (gtag.js)</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>newsletter_cta_view</code></li>
+          <li class="evt-active"><code>newsletter_cta_click</code></li>
+          <li class="evt-active"><code>newsletter_form_start</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_form_submit</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_optin_toggle</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_optin_confirmed</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_email_click</code></li>
+          <li class="evt-gap">CTA variant tracking</li>
+          <li class="evt-gap">8 audience segments</li>
+        </ul>
+      </div>
+
+      <div class="system-card system-card--active-green">
+        <div class="system-role">Email Delivery</div>
+        <div class="system-name">SendGrid</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>delivered</code></li>
+          <li class="evt-active"><code>open</code> / <code>click</code></li>
+          <li class="evt-active"><code>bounce</code></li>
+          <li class="evt-active"><code>unsubscribe</code></li>
+          <li class="evt-active"><code>spamreport</code></li>
+          <li class="evt-active"><code>processed</code> / <code>dropped</code></li>
+          <li class="evt-gap">Webhook &rarr; Firestore sync</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="data-flow-strip mt-16 anim anim-d3">
+      <span class="flow-box">word.tips &rarr; gtag() &rarr; GA4</span>
+      <span class="flow-arrow">|</span>
+      <span class="flow-box">word.tips &rarr; Firestore &harr; Sync Worker &harr; SendGrid</span>
+      <span class="flow-arrow">|</span>
+      <span class="flow-box flow-box--dimmed">SendGrid &rarr; Webhooks &rarr; Firestore</span>
+    </div>
+
+    <div class="insight-card insight-card--green mt-16 anim anim-d4">
+      <strong>Solid foundation:</strong> Capture funnel tracked in GA4. Email engagement stays in SendGrid console &mdash; not yet synced to Firestore.
     </div>
   </div>
 </section>
@@ -1393,6 +1690,73 @@ graph TD
 
     <div class="card card--purple mt-16 anim anim-d3">
       <p style="font-size: 14px;"><strong>Key milestones:</strong> First email sent (~Week 3) &rarr; Guest capture live (~Week 4) &rarr; Full analytics (~Week 6) &rarr; Legacy import (~Week 7) &rarr; Complete system (~Week 8)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== S3 EVENT TRACKING ==================== -->
+<section class="slide" data-title="S3: Event Tracking">
+  <div class="slide-inner">
+    <div class="slide-label slide-label--purple anim">Scenario 3 &mdash; Full Ferrari</div>
+    <h2 class="anim anim-d1">Event Tracking &amp; Data Flow</h2>
+    <p class="subtitle anim anim-d1" style="font-size: 15px;">Full visibility &mdash; every action tracked, every event synced back.</p>
+
+    <div class="system-grid mt-24 anim anim-d2">
+      <div class="system-card system-card--active-purple">
+        <div class="system-role">Source of Truth</div>
+        <div class="system-name">Firestore</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>subscriptions[]</code></li>
+          <li class="evt-active"><code>{page}.subscribed_at</code></li>
+          <li class="evt-active"><code>{page}.status</code></li>
+          <li class="evt-active"><code>last_email_sent/opened/clicked</code></li>
+          <li class="evt-active"><code>emails_sent/opened/clicked_count</code></li>
+          <li class="evt-active"><code>engagement_bucket</code> (hot/warm/cold)</li>
+          <li class="evt-active"><code>open_rate_30d</code> / <code>click_rate_30d</code></li>
+        </ul>
+      </div>
+
+      <div class="system-card system-card--active-purple">
+        <div class="system-role">Web Analytics</div>
+        <div class="system-name">GA4 (gtag.js)</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>newsletter_cta_view</code></li>
+          <li class="evt-active"><code>newsletter_cta_click</code></li>
+          <li class="evt-active"><code>newsletter_form_start</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_form_submit</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_optin_toggle</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_optin_confirmed</code></li>
+          <li class="evt-active evt-conversion"><code>newsletter_email_click</code></li>
+          <li class="evt-active">CTA variant tracking</li>
+          <li class="evt-active">8 audience segments</li>
+        </ul>
+      </div>
+
+      <div class="system-card system-card--active-purple">
+        <div class="system-role">Email Delivery</div>
+        <div class="system-name">SendGrid</div>
+        <ul class="event-list">
+          <li class="evt-active"><code>delivered</code></li>
+          <li class="evt-active"><code>open</code> / <code>click</code></li>
+          <li class="evt-active"><code>bounce</code></li>
+          <li class="evt-active"><code>unsubscribe</code></li>
+          <li class="evt-active"><code>spamreport</code></li>
+          <li class="evt-active"><code>processed</code> / <code>dropped</code></li>
+          <li class="evt-active">Webhook &rarr; Firestore sync</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="data-flow-strip mt-16 anim anim-d3">
+      <span class="flow-box">word.tips &rarr; gtag() &rarr; GA4</span>
+      <span class="flow-arrow">|</span>
+      <span class="flow-box">word.tips &rarr; Firestore &harr; Sync Worker &harr; SendGrid</span>
+      <span class="flow-arrow">|</span>
+      <span class="flow-box">SendGrid &rarr; Webhooks &rarr; Firestore</span>
+    </div>
+
+    <div class="insight-card insight-card--purple mt-16 anim anim-d4">
+      <strong>Full visibility:</strong> Every action tracked, every email event synced back, GA4 audiences segment on both web and email behavior.
     </div>
   </div>
 </section>
