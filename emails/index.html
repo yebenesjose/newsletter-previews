@@ -104,6 +104,27 @@
       margin-left: 8px;
     }
 
+    /* ---- Badges ---- */
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .badge--mvp {
+      background: #D4EDDA;
+      color: #2D7A4F;
+    }
+
+    .badge--future {
+      background: #F5F0FF;
+      color: #7C3AED;
+    }
+
     /* ---- Section Headers ---- */
     .section-header {
       margin: 32px 0 16px;
@@ -249,7 +270,7 @@
 
   <!-- ====== DAILY HINTS ====== -->
   <div class="section-header" id="daily">
-    <h2 class="section-header__title">Daily Newsletter</h2>
+    <h2 class="section-header__title">Daily Newsletter <span class="badge badge--mvp">MVP</span></h2>
     <p class="section-header__subtitle">The core product — sent every morning at 6:30 AM</p>
   </div>
 
@@ -271,8 +292,8 @@
 
   <!-- ====== WELCOME SEQUENCE ====== -->
   <div class="section-header" id="welcome-01">
-    <h2 class="section-header__title">Welcome Sequence</h2>
-    <p class="section-header__subtitle">3-email onboarding series — triggered by double opt-in confirmation</p>
+    <h2 class="section-header__title">Welcome Sequence <span class="badge badge--mvp">MVP</span> <span class="badge badge--future">FULL SEQUENCE</span></h2>
+    <p class="section-header__subtitle">MVP: Combined confirm + welcome email — Future: 3-email onboarding series</p>
   </div>
 
   <div class="email-grid">
@@ -321,8 +342,8 @@
 
   <!-- ====== POST-SOLVE CHECK ====== -->
   <div class="section-header" id="post-solve">
-    <h2 class="section-header__title">Engagement</h2>
-    <p class="section-header__subtitle">Afternoon check-in — sent ~8 hours after daily hints</p>
+    <h2 class="section-header__title">Engagement <span class="badge badge--future">FUTURE</span></h2>
+    <p class="section-header__subtitle">Afternoon check-in — sent ~8 hours after daily hints (deferred to Phase 2)</p>
   </div>
 
   <div class="email-grid">
@@ -343,8 +364,8 @@
 
   <!-- ====== RE-ENGAGEMENT ====== -->
   <div class="section-header" id="reengagement-01">
-    <h2 class="section-header__title">Re-engagement Sequence</h2>
-    <p class="section-header__subtitle">3-email win-back series — triggered at 31+ days inactive</p>
+    <h2 class="section-header__title">Re-engagement Sequence <span class="badge badge--future">FUTURE</span></h2>
+    <p class="section-header__subtitle">3-email win-back series — triggered at 31+ days inactive (deferred to Phase 2)</p>
   </div>
 
   <div class="email-grid">
